@@ -45,12 +45,16 @@ export const getProfissionais = async () => {
     const acessos = await pb.collection('acesso').getFullList<Acesso>()
     const profUserIds = acessos
       .filter((a) => {
-        let p = a.perfis
-        if (typeof p === 'string') {
+        const raw = a.perfis as unknown
+        let p: string[] = []
+        if (Array.isArray(raw)) {
+          p = raw
+        } else if (typeof raw === 'string') {
           try {
-            p = JSON.parse(p)
+            const parsed = JSON.parse(raw)
+            p = Array.isArray(parsed) ? parsed : [raw]
           } catch {
-            p = [p]
+            p = [raw]
           }
         }
         return (

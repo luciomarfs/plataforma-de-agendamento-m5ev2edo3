@@ -14,6 +14,8 @@ interface AuthContextType {
   loading: boolean
   refreshUser: () => Promise<void>
   logout: () => void
+  // Métodos adicionais para paridade
+  signOut: () => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -32,15 +34,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         filter: `id_usuario = "${userId}"`,
       })
       if (records.items.length > 0) {
-        let p = records.items[0].perfis
-        if (typeof p === 'string') {
+        const raw = records.items[0].perfis as unknown
+        let p: string[] = []
+        if (Array.isArray(raw)) {
+          p = raw
+        } else if (typeof raw === 'string') {
           try {
-            p = JSON.parse(p)
+            const parsed = JSON.parse(raw)
+            p = Array.isArray(parsed) ? parsed : [raw]
           } catch {
-            p = [p]
+            p = [raw]
           }
         }
-        setPerfis(Array.isArray(p) ? p : [])
+        setPerfis(p.length > 0 ? p : ['usuario'])
       } else {
         setPerfis(['usuario'])
       }
@@ -103,6 +109,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setPerfis([])
   }
 
+  const signOut = logout
+
   const isAdmin = perfis.includes('admin')
   const isGestor = perfis.includes('gestor') || isAdmin
   const isProfissional = perfis.includes('profissional') || isAdmin
@@ -122,6 +130,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         loading,
         refreshUser,
         logout,
+        signOut,
       }}
     >
       {children}

@@ -52,15 +52,43 @@ export default function Login() {
 
     setLoading(true)
     try {
-      await pb.collection('users').authWithPassword(email, password)
+      const authData = await pb.collection('users').authWithPassword(email, password)
       await refreshUser()
       toast({
         title: 'Bem-vindo(a)!',
         description: 'Autenticação realizada com sucesso via token seguro.',
       })
 
-      // Redirecionamento inteligente
-      if (isAdminHint || email.includes('admin') || email === 'luciomar.fs@gmail.com') {
+      // Checa perfis do usuário no banco para redirecionamento correto
+      let isEmpresa = isAdminHint || email.includes('admin') || email === 'luciomar.fs@gmail.com'
+      try {
+        const acessoRecs = await pb.collection('acesso').getList(1, 1, {
+          filter: `id_usuario = "${authData.record.id}"`,
+        })
+        if (acessoRecs.items.length > 0) {
+          const raw = acessoRecs.items[0].perfis
+          let perfisArray: string[] = []
+          if (Array.isArray(raw)) perfisArray = raw
+          else if (typeof raw === 'string') {
+            try {
+              perfisArray = JSON.parse(raw)
+            } catch {
+              perfisArray = [raw]
+            }
+          }
+          if (
+            perfisArray.includes('admin') ||
+            perfisArray.includes('gestor') ||
+            perfisArray.includes('profissional')
+          ) {
+            isEmpresa = true
+          }
+        }
+      } catch {
+        // fallback mantém lógica de isAdminHint
+      }
+
+      if (isEmpresa) {
         navigate('/admin')
       } else {
         navigate('/agendar')

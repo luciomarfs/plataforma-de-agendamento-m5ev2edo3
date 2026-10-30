@@ -39,10 +39,10 @@ export const UserNavbar: React.FC = () => {
             </div>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="flex items-center gap-1">
             <Link
               to="/agendar"
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 location.pathname === '/agendar'
                   ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30'
                   : 'text-slate-400 hover:text-white'
@@ -52,7 +52,7 @@ export const UserNavbar: React.FC = () => {
             </Link>
             <Link
               to="/meus-agendamentos"
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 location.pathname === '/meus-agendamentos'
                   ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30'
                   : 'text-slate-400 hover:text-white'
