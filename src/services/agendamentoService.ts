@@ -33,151 +33,67 @@ export const agendamentoService = {
   },
 
   /**
-   * Caso de uso: Agendar sessão
-   * 1. Verifica se slot existe e tem vaga disponível (quantidade_utilizada < quantidade)
-   * 2. Verifica se usuário tem contrato ativo na organização com saldo_slots > 0
-   * 3. Cria agendamento com status 'agendado'
-   * 4. Incrementa quantidade_utilizada no slot
-   * 5. Decrementa saldo_slots no contrato
+   * Caso de uso: Agendar sessão no servidor (atômico)
+   * Executa rota REST /backend/v1/agendamentos com token PocketBase.
+   * Valida capacidade, contrato ativo, saldo e unicidade no servidor.
    */
   async agendar(
     input: CreateAgendamentoInput,
   ): Promise<{ agendamento: Agendamento; slot: Slot; contrato: Contrato }> {
-    // 1. Obter slot
-    const slot = await pb.collection('slot').getOne<Slot>(input.id_slot, {
-      expand: 'id_organizacao,id_profissional',
-    })
-    if (!slot) {
-      throw new Error('Horário (slot) não encontrado.')
-    }
-    const util = slot.quantidade_utilizada ?? 0
-    if (util >= slot.quantidade) {
-      throw new Error('Este horário já está com a capacidade máxima lotada.')
-    }
-
-    // 2. Verificar se o usuário já agendou este slot
     try {
-      const existing = await pb
-        .collection('agendamento')
-        .getFirstListItem<Agendamento>(
-          `id_slot = "${input.id_slot}" && id_usuario = "${input.id_usuario}" && status = "agendado"`,
-        )
-      if (existing) {
-        throw new Error('Você já possui um agendamento confirmado neste mesmo horário.')
+      const res = await pb.send<{
+        success: boolean
+        agendamento: Agendamento
+        slot: Slot
+        contrato: Contrato
+      }>('/backend/v1/agendamentos', {
+        method: 'POST',
+        body: {
+          id_slot: input.id_slot,
+          id_usuario: input.id_usuario,
+          id_organizacao: input.id_organizacao,
+          observacao: input.observacao || '',
+        },
+      })
+
+      return {
+        agendamento: res.agendamento,
+        slot: res.slot,
+        contrato: res.contrato,
       }
     } catch (err: any) {
-      if (err.message && err.message.includes('Você já possui')) {
-        throw err
-      }
-    }
-
-    // 3. Obter contrato ativo
-    let contrato: Contrato
-    try {
-      contrato = await pb
-        .collection('contrato')
-        .getFirstListItem<Contrato>(
-          `id_usuario = "${input.id_usuario}" && id_organizacao = "${input.id_organizacao}" && ativo = true`,
-        )
-    } catch {
-      throw new Error(
-        'Nenhum contrato ativo encontrado para esta organização. Solicite a liberação do seu plano.',
-      )
-    }
-
-    if (contrato.saldo_slots <= 0) {
-      throw new Error(
-        'Saldo de slots esgotado no seu plano. Adquira mais créditos ou renove seu contrato.',
-      )
-    }
-
-    // 4. Criar agendamento
-    const agendamento = await pb.collection('agendamento').create<Agendamento>(
-      {
-        id_slot: input.id_slot,
-        id_usuario: input.id_usuario,
-        id_organizacao: input.id_organizacao,
-        status: 'agendado',
-        observacao: input.observacao || '',
-      },
-      {
-        expand: 'id_slot,id_usuario,id_organizacao',
-      },
-    )
-
-    // 5. Atualizar slot (+1 utilizada)
-    const updatedSlot = await pb.collection('slot').update<Slot>(slot.id, {
-      quantidade_utilizada: util + 1,
-    })
-
-    // 6. Atualizar contrato (-1 saldo)
-    const updatedContrato = await pb.collection('contrato').update<Contrato>(contrato.id, {
-      saldo_slots: Math.max(0, contrato.saldo_slots - 1),
-    })
-
-    return {
-      agendamento,
-      slot: updatedSlot,
-      contrato: updatedContrato,
+      const serverMessage =
+        err?.response?.message ||
+        err?.data?.message ||
+        err?.message ||
+        'Não foi possível realizar o agendamento.'
+      throw new Error(serverMessage)
     }
   },
 
   /**
-   * Caso de uso: Cancelar agendamento
-   * 1. Verifica se agendamento está 'agendado'
-   * 2. Atualiza status para 'cancelado'
-   * 3. Decrementa quantidade_utilizada no slot
-   * 4. Devolve +1 saldo_slots no contrato do usuário
+   * Caso de uso: Cancelar agendamento no servidor (atômico)
+   * Executa rota REST /backend/v1/agendamentos/{id}/cancelar com token PocketBase.
+   * Valida autorização do usuário e estorna vaga e saldo no contrato de forma atômica.
    */
   async cancelar(id_agendamento: string): Promise<{ agendamento: Agendamento }> {
-    const agendamento = await pb.collection('agendamento').getOne<Agendamento>(id_agendamento, {
-      expand: 'id_slot,id_usuario,id_organizacao',
-    })
-
-    if (agendamento.status === 'cancelado') {
-      return { agendamento }
-    }
-
-    // Atualiza status do agendamento
-    const updatedAgendamento = await pb.collection('agendamento').update<Agendamento>(
-      id_agendamento,
-      {
-        status: 'cancelado',
-      },
-      {
-        expand: 'id_slot,id_usuario,id_organizacao',
-      },
-    )
-
-    // Devolve vaga no slot
-    if (agendamento.id_slot) {
-      try {
-        const slot = await pb.collection('slot').getOne<Slot>(agendamento.id_slot)
-        const novoUtil = Math.max(0, (slot.quantidade_utilizada ?? 1) - 1)
-        await pb.collection('slot').update(slot.id, {
-          quantidade_utilizada: novoUtil,
-        })
-      } catch (e) {
-        console.warn('Erro ao atualizar slot no cancelamento:', e)
-      }
-    }
-
-    // Devolve saldo no contrato
     try {
-      const contrato = await pb
-        .collection('contrato')
-        .getFirstListItem<Contrato>(
-          `id_usuario = "${agendamento.id_usuario}" && id_organizacao = "${agendamento.id_organizacao}" && ativo = true`,
-        )
-      if (contrato) {
-        await pb.collection('contrato').update(contrato.id, {
-          saldo_slots: contrato.saldo_slots + 1,
-        })
-      }
-    } catch (e) {
-      console.warn('Erro ao devolver saldo no cancelamento:', e)
-    }
+      const res = await pb.send<{
+        success: boolean
+        message: string
+        agendamento: Agendamento
+      }>(`/backend/v1/agendamentos/${id_agendamento}/cancelar`, {
+        method: 'POST',
+      })
 
-    return { agendamento: updatedAgendamento }
+      return { agendamento: res.agendamento }
+    } catch (err: any) {
+      const serverMessage =
+        err?.response?.message ||
+        err?.data?.message ||
+        err?.message ||
+        'Não foi possível cancelar o agendamento.'
+      throw new Error(serverMessage)
+    }
   },
 }

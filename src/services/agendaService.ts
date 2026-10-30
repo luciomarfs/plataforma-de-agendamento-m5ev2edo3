@@ -227,105 +227,50 @@ export const realizarAgendamento = async ({
   organizacaoId: string
   observacao?: string
 }) => {
-  // 1. Obter slot atualizado
-  const slot = await pb.collection('slot').getOne<Slot>(slotId)
-
-  // 2. Checar capacidade da sessão
-  const ocupadas = slot.quantidade_utilizada || 0
-  if (ocupadas >= slot.quantidade) {
-    throw new Error('Capacidade esgotada para este horário! Não há vagas disponíveis.')
-  }
-
-  // 3. Checar se usuário já possui agendamento ativo neste slot
-  const jaAgendado = await pb.collection('agendamento').getList<Agendamento>(1, 1, {
-    filter: `id_slot = "${slotId}" && id_usuario = "${userId}" && status = "agendado"`,
-  })
-  if (jaAgendado.items.length > 0) {
-    throw new Error('Você já possui um agendamento confirmado para este horário.')
-  }
-
-  // 4. Checar contrato se existir
-  const contratos = await pb.collection('contrato').getList<Contrato>(1, 1, {
-    filter: `id_usuario = "${userId}" && id_organizacao = "${organizacaoId}" && ativo = true`,
-  })
-
-  let contratoAtivo: Contrato | null = null
-  if (contractsAvailable(contratos.items)) {
-    contratoAtivo = contratos.items[0]
-    if (contratoAtivo.saldo_slots !== undefined && contratoAtivo.saldo_slots <= 0) {
-      throw new Error('Saldo de slots do seu contrato está zerado.')
-    }
-  }
-
-  // 5. Criar registro de agendamento
-  const novoAgendamento = await pb.collection('agendamento').create<Agendamento>({
-    id_slot: slotId,
-    id_usuario: userId,
-    id_organizacao: organizacaoId,
-    status: 'agendado',
-    observacao: observacao || '',
-  })
-
-  // 6. Atualizar quantidade_utilizada do slot
-  await pb.collection('slot').update(slotId, {
-    quantidade_utilizada: ocupadas + 1,
-  })
-
-  // 7. Deduzir saldo de slots no contrato se houver
-  if (contratoAtivo && contratoAtivo.saldo_slots !== undefined) {
-    await pb.collection('contrato').update(contratoAtivo.id, {
-      saldo_slots: Math.max(0, contratoAtivo.saldo_slots - 1),
+  try {
+    const res = await pb.send<{
+      success: boolean
+      agendamento: Agendamento
+      slot: Slot
+      contrato: Contrato
+    }>('/backend/v1/agendamentos', {
+      method: 'POST',
+      body: {
+        id_slot: slotId,
+        id_usuario: userId,
+        id_organizacao: organizacaoId,
+        observacao: observacao || '',
+      },
     })
+    return res.agendamento
+  } catch (err: any) {
+    const serverMessage =
+      err?.response?.message ||
+      err?.data?.message ||
+      err?.message ||
+      'Não foi possível realizar o agendamento.'
+    throw new Error(serverMessage)
   }
-
-  return novoAgendamento
 }
 
 export const cancelarAgendamento = async (agendamentoId: string) => {
-  const agendamento = await pb.collection('agendamento').getOne<Agendamento>(agendamentoId, {
-    expand: 'id_slot',
-  })
-
-  if (agendamento.status === 'cancelado') {
-    return agendamento
-  }
-
-  // 1. Atualizar status para cancelado
-  const updated = await pb.collection('agendamento').update<Agendamento>(agendamentoId, {
-    status: 'cancelado',
-  })
-
-  // 2. Liberar vaga no slot
-  if (agendamento.id_slot) {
-    try {
-      const slot = await pb.collection('slot').getOne<Slot>(agendamento.id_slot)
-      const novaQtd = Math.max(0, (slot.quantidade_utilizada || 1) - 1)
-      await pb.collection('slot').update(agendamento.id_slot, {
-        quantidade_utilizada: novaQtd,
-      })
-    } catch (e) {
-      console.warn('Erro ao atualizar quantidade do slot:', e)
-    }
-  }
-
-  // 3. Devolver saldo no contrato se existir
   try {
-    const contratos = await pb.collection('contrato').getList<Contrato>(1, 1, {
-      filter: `id_usuario = "${agendamento.id_usuario}" && id_organizacao = "${agendamento.id_organizacao}" && ativo = true`,
+    const res = await pb.send<{
+      success: boolean
+      message: string
+      agendamento: Agendamento
+    }>(`/backend/v1/agendamentos/${agendamentoId}/cancelar`, {
+      method: 'POST',
     })
-    if (contractsAvailable(contratos.items)) {
-      const c = contratos.items[0]
-      if (c.saldo_slots !== undefined) {
-        await pb.collection('contrato').update(c.id, {
-          saldo_slots: c.saldo_slots + 1,
-        })
-      }
-    }
-  } catch (e) {
-    console.warn('Erro ao estornar saldo do contrato:', e)
+    return res.agendamento
+  } catch (err: any) {
+    const serverMessage =
+      err?.response?.message ||
+      err?.data?.message ||
+      err?.message ||
+      'Não foi possível cancelar o agendamento.'
+    throw new Error(serverMessage)
   }
-
-  return updated
 }
 
 function contractsAvailable(items: Contrato[]): boolean {
