@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '@/contexts/AuthContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import { Button } from '@/components/ui/button'
+import { NoWaitFitLogo } from '@/components/NoWaitFitLogo'
 import {
   Building2,
   Calendar,
@@ -46,17 +47,10 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link to="/admin" className="flex items-center gap-2.5">
-              <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                <Building2 className="h-5 w-5 text-white" />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-base tracking-tight bg-gradient-to-r from-white to-cyan-400 bg-clip-text text-transparent">
-                  AgendFit Enterprise
-                </span>
-                <span className="text-[10px] text-cyan-400 -mt-1 font-mono uppercase">
-                  Gestão & Slots
-                </span>
-              </div>
+              <NoWaitFitLogo size="sm" />
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-mono uppercase font-bold ml-1">
+                Enterprise
+              </span>
             </Link>
 
             <span className="hidden md:inline-block h-4 w-px bg-slate-800 ml-2" />

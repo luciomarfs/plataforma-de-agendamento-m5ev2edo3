@@ -4,6 +4,7 @@ import pb from '@/lib/pocketbase/client'
 import { useAuth } from '@/contexts/AuthContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import { Button } from '@/components/ui/button'
+import { NoWaitFitLogo } from '@/components/NoWaitFitLogo'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -139,11 +140,11 @@ export default function Login() {
 
       <Card className="w-full max-w-md bg-slate-900/80 border-slate-800 shadow-2xl backdrop-blur-xl relative z-10 rounded-3xl">
         <CardHeader className="text-center pb-4">
-          <div className="mx-auto h-12 w-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/25 mb-3">
-            <Activity className="h-6 w-6 text-white" />
+          <div className="flex justify-center mb-4">
+            <NoWaitFitLogo size="md" />
           </div>
           <CardTitle className="text-2xl font-bold text-white tracking-tight">
-            {isAdminHint ? 'Painel Corporativo' : 'Acesse sua Conta'}
+            {isAdminHint ? 'Painel Corporativo NoWaitFit' : 'Acesse sua Conta NoWaitFit'}
           </CardTitle>
           <CardDescription className="text-slate-400 text-xs sm:text-sm">
             {isAdminHint
@@ -209,7 +210,7 @@ export default function Login() {
                   Validando Tokens...
                 </>
               ) : (
-                'Entrar na Plataforma'
+                'Entrar na NoWaitFit'
               )}
             </Button>
           </form>

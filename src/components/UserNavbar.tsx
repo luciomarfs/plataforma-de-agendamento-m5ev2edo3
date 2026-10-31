@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '@/contexts/AuthContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import { Button } from '@/components/ui/button'
+import { NoWaitFitLogo } from '@/components/NoWaitFitLogo'
 import {
   Activity,
   Calendar,
@@ -26,17 +27,10 @@ export const UserNavbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-md shadow-cyan-500/20 group-hover:scale-105 transition-transform">
-              <Activity className="h-4 w-4 text-white" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-base tracking-tight bg-gradient-to-r from-white to-cyan-400 bg-clip-text text-transparent">
-                AgendFit
-              </span>
-              <span className="text-[9px] text-cyan-400 -mt-1 font-mono uppercase">
-                Portal do Aluno
-              </span>
-            </div>
+            <NoWaitFitLogo size="sm" />
+            <span className="hidden sm:inline-block text-[9px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-mono uppercase font-bold ml-1">
+              Aluno
+            </span>
           </Link>
 
           <nav className="flex items-center gap-1">
