@@ -1,6 +1,7 @@
 injectWorkspacePackages: false
 allowBuilds:
   '@swc/core': true
+  bcrypt: true
   esbuild: true
 
 minimumReleaseAgeExclude:

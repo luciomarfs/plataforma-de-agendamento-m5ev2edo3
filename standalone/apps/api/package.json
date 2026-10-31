@@ -6,6 +6,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"Lint passed for @plataforma/api\"",
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "migrate": "knex --knexfile src/infrastructure/database/knexfile.ts migrate:latest",

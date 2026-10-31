@@ -1,9 +1,10 @@
-import type { Knex } from 'knex';
+import type { Knex } from 'knex'
 
 const config: { [key: string]: Knex.Config } = {
   development: {
     client: 'pg',
-    connection: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/agendamento_db',
+    connection:
+      process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/agendamento_db',
     migrations: {
       directory: './migrations',
       extension: 'ts',
@@ -29,6 +30,6 @@ const config: { [key: string]: Knex.Config } = {
     },
     pool: { min: 2, max: 20 },
   },
-};
+}
 
-export default config;
+export default config

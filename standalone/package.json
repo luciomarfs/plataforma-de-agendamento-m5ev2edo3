@@ -9,14 +9,15 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
     "lint": "turbo run lint",
     "migrate": "npm run --workspace=apps/api migrate",
     "migrate:rollback": "npm run --workspace=apps/api migrate:rollback",
     "seed": "npm run --workspace=apps/api seed",
     "start:api": "npm run --workspace=apps/api start",
     "dev:api": "npm run --workspace=apps/api dev",
-    "dev:empresa": "npm run --workspace=apps/app-empresa dev",
-    "dev:usuario": "npm run --workspace=apps/app-usuario dev"
+    "dev:empresa": "npm run --workspace=apps/web-empresa dev",
+    "dev:usuario": "npm run --workspace=apps/web-usuario dev"
   },
   "devDependencies": {
     "turbo": "^2.4.4"

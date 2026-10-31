@@ -7,26 +7,22 @@ import {
   IAcessoRepository,
   IAcessoEOrganizacaoRepository,
   IUnitOfWork,
-} from '../../domain/repositories/interfaces.js';
-import {
-  DomainError,
-  NotFoundError,
-  ForbiddenError,
-} from '../../domain/errors.js';
+} from '../../domain/repositories/interfaces.js'
+import { DomainError, NotFoundError, ForbiddenError } from '../../domain/errors.js'
 
 export interface CriarAgendamentoInput {
-  id_slot: string;
-  id_usuario: string; // usuário alvo
-  id_organizacao?: string;
-  observacao?: string;
-  solicitanteId: string;
-  solicitantePerfis: string[];
+  id_slot: string
+  id_usuario: string // usuário alvo
+  id_organizacao?: string
+  observacao?: string
+  solicitanteId: string
+  solicitantePerfis: string[]
 }
 
 export interface CancelarAgendamentoInput {
-  id_agendamento: string;
-  solicitanteId: string;
-  solicitantePerfis: string[];
+  id_agendamento: string
+  solicitanteId: string
+  solicitantePerfis: string[]
 }
 
 export class AgendamentoUseCases {
@@ -43,61 +39,68 @@ export class AgendamentoUseCases {
 
   private async isStaffOrAdmin(userId: string, orgId: string, perfis: string[]): Promise<boolean> {
     if (perfis.includes('admin') || perfis.includes('gestor')) {
-      return true;
+      return true
     }
-    const vinculo = await this.vinculoRepo.findByUserAndOrg(userId, orgId);
-    if (vinculo && (vinculo.papel === 'admin' || vinculo.papel === 'gestor' || vinculo.papel === 'profissional')) {
-      return true;
+    const vinculo = await this.vinculoRepo.findByUserAndOrg(userId, orgId)
+    if (
+      vinculo &&
+      (vinculo.papel === 'admin' || vinculo.papel === 'gestor' || vinculo.papel === 'profissional')
+    ) {
+      return true
     }
-    return false;
+    return false
   }
 
   async criarAgendamento(input: CriarAgendamentoInput) {
-    const { id_slot, solicitanteId, solicitantePerfis, observacao } = input;
-    const targetUserId = input.id_usuario || solicitanteId;
+    const { id_slot, solicitanteId, solicitantePerfis, observacao } = input
+    const targetUserId = input.id_usuario || solicitanteId
 
     // 1. Carregar slot para validação
-    const slot = await this.slotRepo.findById(id_slot);
+    const slot = await this.slotRepo.findById(id_slot)
     if (!slot) {
-      throw new NotFoundError('Horário (slot) não encontrado.');
+      throw new NotFoundError('Horário (slot) não encontrado.')
     }
 
-    const orgId = input.id_organizacao || slot.id_organizacao;
+    const orgId = input.id_organizacao || slot.id_organizacao
     if (slot.id_organizacao !== orgId) {
-      throw new DomainError('A organização informada não corresponde ao horário do slot.');
+      throw new DomainError('A organização informada não corresponde ao horário do slot.')
     }
 
     if (slot.ativo === false) {
-      throw new DomainError('Este horário não está ativo para agendamento.');
+      throw new DomainError('Este horário não está ativo para agendamento.')
     }
 
     // Se estiver agendando para outro usuário, exige perfil staff/admin
     if (targetUserId !== solicitanteId) {
-      const isStaff = await this.isStaffOrAdmin(solicitanteId, orgId, solicitantePerfis);
+      const isStaff = await this.isStaffOrAdmin(solicitanteId, orgId, solicitantePerfis)
       if (!isStaff) {
-        throw new ForbiddenError('Você não tem permissão para realizar agendamentos para outro usuário.');
+        throw new ForbiddenError(
+          'Você não tem permissão para realizar agendamentos para outro usuário.',
+        )
       }
     }
 
     // Capacidade pré-transação
     if (slot.quantidade_utilizada >= slot.quantidade) {
-      throw new DomainError('Slot lotado. Não há vagas disponíveis para esta sessão.');
+      throw new DomainError('Slot lotado. Não há vagas disponíveis para esta sessão.')
     }
 
     // 2. Verificar se já tem agendamento ativo no slot
-    const existente = await this.agendamentoRepo.findExistente(id_slot, targetUserId);
+    const existente = await this.agendamentoRepo.findExistente(id_slot, targetUserId)
     if (existente && existente.status === 'agendado') {
-      throw new DomainError('Você já possui um agendamento confirmado para este horário.');
+      throw new DomainError('Você já possui um agendamento confirmado para este horário.')
     }
 
     // 3. Buscar contrato ativo do usuário na organização
-    const contrato = await this.contratoRepo.findAtivo(targetUserId, orgId);
+    const contrato = await this.contratoRepo.findAtivo(targetUserId, orgId)
     if (!contrato) {
-      throw new DomainError('Nenhum contrato ativo encontrado para esta organização. Solicite a liberação do seu plano.');
+      throw new DomainError(
+        'Nenhum contrato ativo encontrado para esta organização. Solicite a liberação do seu plano.',
+      )
     }
 
     if (contrato.saldo_slots <= 0) {
-      throw new DomainError('Sem saldo disponível. Saldo de slots esgotado no seu plano.');
+      throw new DomainError('Sem saldo disponível. Saldo de slots esgotado no seu plano.')
     }
 
     // 4. Validar limites diário, semanal e mensal
@@ -105,30 +108,48 @@ export class AgendamentoUseCases {
       id_usuario: targetUserId,
       id_organizacao: orgId,
       data: slot.data,
-    });
+    })
 
-    if (contrato.slots_por_dia && contrato.slots_por_dia > 0 && limites.dia >= contrato.slots_por_dia) {
-      throw new DomainError(`Limite diário atingido. Seu plano permite até ${contrato.slots_por_dia} agendamento(s) por dia.`);
+    if (
+      contrato.slots_por_dia &&
+      contrato.slots_por_dia > 0 &&
+      limites.dia >= contrato.slots_por_dia
+    ) {
+      throw new DomainError(
+        `Limite diário atingido. Seu plano permite até ${contrato.slots_por_dia} agendamento(s) por dia.`,
+      )
     }
-    if (contrato.slots_por_semana && contrato.slots_por_semana > 0 && limites.semana >= contrato.slots_por_semana) {
-      throw new DomainError(`Limite semanal atingido. Seu plano permite até ${contrato.slots_por_semana} agendamento(s) por semana.`);
+    if (
+      contrato.slots_por_semana &&
+      contrato.slots_por_semana > 0 &&
+      limites.semana >= contrato.slots_por_semana
+    ) {
+      throw new DomainError(
+        `Limite semanal atingido. Seu plano permite até ${contrato.slots_por_semana} agendamento(s) por semana.`,
+      )
     }
-    if (contrato.slots_por_mes && contrato.slots_por_mes > 0 && limites.mes >= contrato.slots_por_mes) {
-      throw new DomainError(`Limite mensal atingido. Seu plano permite até ${contrato.slots_por_mes} agendamento(s) por mês.`);
+    if (
+      contrato.slots_por_mes &&
+      contrato.slots_por_mes > 0 &&
+      limites.mes >= contrato.slots_por_mes
+    ) {
+      throw new DomainError(
+        `Limite mensal atingido. Seu plano permite até ${contrato.slots_por_mes} agendamento(s) por mês.`,
+      )
     }
 
     // 5. TRANSAÇÃO ATÔMICA
     const resultado = await this.uow.startTransaction(async (trx) => {
       // Revalida slot com lock de transação
-      const currentSlot = await this.slotRepo.findById(id_slot, trx);
+      const currentSlot = await this.slotRepo.findById(id_slot, trx)
       if (!currentSlot || currentSlot.quantidade_utilizada >= currentSlot.quantidade) {
-        throw new DomainError('Slot lotado. A vaga acabou de ser preenchida por outro usuário.');
+        throw new DomainError('Slot lotado. A vaga acabou de ser preenchida por outro usuário.')
       }
 
       // Revalida contrato com lock
-      const currentContrato = await this.contratoRepo.findById(contrato.id_contrato, trx);
+      const currentContrato = await this.contratoRepo.findById(contrato.id_contrato, trx)
       if (!currentContrato || currentContrato.saldo_slots <= 0) {
-        throw new DomainError('Sem saldo disponível no contrato.');
+        throw new DomainError('Sem saldo disponível no contrato.')
       }
 
       // Criar agendamento
@@ -143,23 +164,23 @@ export class AgendamentoUseCases {
           update_at: new Date(),
         },
         trx,
-      );
+      )
 
       // Incrementar quantidade_utilizada do slot
-      const updatedSlot = await this.slotRepo.incrementarOcupacao(id_slot, trx);
+      const updatedSlot = await this.slotRepo.incrementarOcupacao(id_slot, trx)
 
       // Debitar saldo do contrato
-      const updatedContrato = await this.contratoRepo.debitarSlot(contrato.id_contrato, trx);
+      const updatedContrato = await this.contratoRepo.debitarSlot(contrato.id_contrato, trx)
 
       return {
         agendamento: novoAgendamento,
         slot: updatedSlot,
         contrato: updatedContrato,
-      };
-    });
+      }
+    })
 
-    const organizacao = await this.orgRepo.findById(orgId);
-    const usuario = await this.userRepo.findById(targetUserId);
+    const organizacao = await this.orgRepo.findById(orgId)
+    const usuario = await this.userRepo.findById(targetUserId)
 
     return {
       success: true,
@@ -173,22 +194,28 @@ export class AgendamentoUseCases {
       },
       slot: resultado.slot,
       contrato: resultado.contrato,
-    };
+    }
   }
 
   async cancelarAgendamento(input: CancelarAgendamentoInput) {
-    const { id_agendamento, solicitanteId, solicitantePerfis } = input;
+    const { id_agendamento, solicitanteId, solicitantePerfis } = input
 
-    const agendamento = await this.agendamentoRepo.findById(id_agendamento);
+    const agendamento = await this.agendamentoRepo.findById(id_agendamento)
     if (!agendamento) {
-      throw new NotFoundError('Agendamento não encontrado.');
+      throw new NotFoundError('Agendamento não encontrado.')
     }
 
     // Permissão: dono OU staff/admin da organização
     if (agendamento.id_usuario !== solicitanteId) {
-      const isStaff = await this.isStaffOrAdmin(solicitanteId, agendamento.id_organizacao, solicitantePerfis);
+      const isStaff = await this.isStaffOrAdmin(
+        solicitanteId,
+        agendamento.id_organizacao,
+        solicitantePerfis,
+      )
       if (!isStaff) {
-        throw new ForbiddenError('Apenas o dono do agendamento ou a equipe da organização pode cancelá-lo.');
+        throw new ForbiddenError(
+          'Apenas o dono do agendamento ou a equipe da organização pode cancelá-lo.',
+        )
       }
     }
 
@@ -197,38 +224,42 @@ export class AgendamentoUseCases {
         success: true,
         message: 'Agendamento já estava cancelado.',
         agendamento,
-      };
+      }
     }
 
     // TRANSAÇÃO ATÔMICA DE ESTORNO
     const resultado = await this.uow.startTransaction(async (trx) => {
       // 1. Atualizar agendamento para cancelado
-      const updatedAg = await this.agendamentoRepo.updateStatus(id_agendamento, 'cancelado', trx);
+      const updatedAg = await this.agendamentoRepo.updateStatus(id_agendamento, 'cancelado', trx)
 
       // 2. Decrementar quantidade_utilizada do slot
-      let updatedSlot = null;
+      let updatedSlot = null
       if (agendamento.id_slot) {
         try {
-          updatedSlot = await this.slotRepo.decrementarOcupacao(agendamento.id_slot, trx);
+          updatedSlot = await this.slotRepo.decrementarOcupacao(agendamento.id_slot, trx)
         } catch (_) {}
       }
 
       // 3. Estornar saldo no contrato ativo do usuário
-      let updatedContrato = null;
-      const contrato = await this.contratoRepo.findAtivo(agendamento.id_usuario, agendamento.id_organizacao, trx);
+      let updatedContrato = null
+      const contrato = await this.contratoRepo.findAtivo(
+        agendamento.id_usuario,
+        agendamento.id_organizacao,
+        trx,
+      )
       if (contrato) {
-        updatedContrato = await this.contratoRepo.estornarSlot(contrato.id_contrato, trx);
+        updatedContrato = await this.contratoRepo.estornarSlot(contrato.id_contrato, trx)
       }
 
       return {
         agendamento: updatedAg,
         slot: updatedSlot,
         contrato: updatedContrato,
-      };
-    });
+      }
+    })
 
-    const org = await this.orgRepo.findById(agendamento.id_organizacao);
-    const slot = resultado.slot || (await this.slotRepo.findById(agendamento.id_slot));
+    const org = await this.orgRepo.findById(agendamento.id_organizacao)
+    const slot = resultado.slot || (await this.slotRepo.findById(agendamento.id_slot))
 
     return {
       success: true,
@@ -240,14 +271,14 @@ export class AgendamentoUseCases {
           id_organizacao: org,
         },
       },
-    };
+    }
   }
 
   async listarMeusAgendamentos(id_usuario: string) {
-    return this.agendamentoRepo.listByUsuario(id_usuario);
+    return this.agendamentoRepo.listByUsuario(id_usuario)
   }
 
   async listarPorOrganizacao(id_organizacao: string) {
-    return this.agendamentoRepo.listByOrganizacao(id_organizacao);
+    return this.agendamentoRepo.listByOrganizacao(id_organizacao)
   }
 }
