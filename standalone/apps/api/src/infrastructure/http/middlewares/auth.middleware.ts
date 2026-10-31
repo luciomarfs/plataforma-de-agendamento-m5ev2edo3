@@ -26,11 +26,9 @@ export function authMiddleware(tokenService: ITokenService) {
 
     const [scheme, token] = authHeader.split(' ')
     if (scheme !== 'Bearer' || !token) {
-      res
-        .status(401)
-        .json({
-          error: 'Formato do cabeçalho de autenticação inválido. Use "Bearer <token>".',
-        })
+      res.status(401).json({
+        error: 'Formato do cabeçalho de autenticação inválido. Use "Bearer <token>".',
+      })
       return
     }
 
