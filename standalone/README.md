@@ -86,6 +86,12 @@ O schema cria as 7 tabelas com seus índices e chaves estrangeiras:
 - `contrato` (vínculo aluno-organização com saldo_slots e limites por dia/semana/mês)
 
 ### Comandos de Migração:
+O PostgreSQL deve estar em execução e o banco informado em `DATABASE_URL` deve existir.
+As migrations, o rollback e os seeds carregam `apps/api/.env` independentemente do
+diretório de trabalho; uma `DATABASE_URL` já definida no ambiente tem precedência.
+Se a variável estiver ausente ou vazia, a configuração informa o erro antes de
+tentar conectar, sem exibir credenciais.
+
 A partir da raiz da pasta `standalone`:
 ```bash
 # Executar as migrations (criação do schema)

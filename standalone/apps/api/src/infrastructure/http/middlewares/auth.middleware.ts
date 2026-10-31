@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
-import { ITokenService } from '../application/services/ports.js'
-import { UnauthorizedError } from '../domain/errors.js'
+import { ITokenService } from '../../../application/services/ports.js'
+import { UnauthorizedError } from '../../../domain/errors.js'
 
 export interface AuthenticatedUser {
   id: string
@@ -28,7 +28,9 @@ export function authMiddleware(tokenService: ITokenService) {
     if (scheme !== 'Bearer' || !token) {
       res
         .status(401)
-        .json({ error: 'Formato do cabeçalho de autenticação inválido. Use "Bearer <token>".' })
+        .json({
+          error: 'Formato do cabeçalho de autenticação inválido. Use "Bearer <token>".',
+        })
       return
     }
 

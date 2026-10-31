@@ -1,5 +1,5 @@
 import type { Knex } from 'knex'
-import { IUnitOfWork } from '../../../domain/repositories/interfaces.js'
+import { IUnitOfWork } from '../../domain/repositories/interfaces.js'
 
 export class KnexUnitOfWork implements IUnitOfWork {
   constructor(private knex: Knex) {}

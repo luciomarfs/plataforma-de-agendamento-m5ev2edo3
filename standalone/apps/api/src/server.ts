@@ -1,38 +1,38 @@
 import express, { Express, Request, Response, NextFunction } from 'express'
 import cors from 'cors'
-import { db } from './database/connection.js'
+import { db } from './infrastructure/database/connection.js'
 
 // Repositórios (Adapters)
-import { KnexUsuarioRepository } from './database/repositories/usuario.repository.js'
-import { KnexAcessoRepository } from './database/repositories/acesso.repository.js'
-import { KnexAcessoEOrganizacaoRepository } from './database/repositories/acessoeorganizacao.repository.js'
-import { KnexOrganizacaoRepository } from './database/repositories/organizacao.repository.js'
-import { KnexSlotRepository } from './database/repositories/slot.repository.js'
-import { KnexAgendamentoRepository } from './database/repositories/agendamento.repository.js'
-import { KnexContratoRepository } from './database/repositories/contrato.repository.js'
-import { KnexUnitOfWork } from './database/unit-of-work.js'
+import { KnexUsuarioRepository } from './infrastructure/database/repositories/usuario.repository.js'
+import { KnexAcessoRepository } from './infrastructure/database/repositories/acesso.repository.js'
+import { KnexAcessoEOrganizacaoRepository } from './infrastructure/database/repositories/acessoeorganizacao.repository.js'
+import { KnexOrganizacaoRepository } from './infrastructure/database/repositories/organizacao.repository.js'
+import { KnexSlotRepository } from './infrastructure/database/repositories/slot.repository.js'
+import { KnexAgendamentoRepository } from './infrastructure/database/repositories/agendamento.repository.js'
+import { KnexContratoRepository } from './infrastructure/database/repositories/contrato.repository.js'
+import { KnexUnitOfWork } from './infrastructure/database/unit-of-work.js'
 
 // Serviços
-import { JwtTokenService } from './services/jwt-token.service.js'
-import { BcryptHashService } from './services/bcrypt-hash.service.js'
-import { ConsoleMailerService } from './services/console-mailer.service.js'
+import { JwtTokenService } from './infrastructure/services/jwt-token.service.js'
+import { BcryptHashService } from './infrastructure/services/bcrypt-hash.service.js'
+import { ConsoleMailerService } from './infrastructure/services/console-mailer.service.js'
 
 // Casos de Uso
-import { AuthUseCases } from '../application/use-cases/auth.use-case.js'
-import { AgendamentoUseCases } from '../application/use-cases/agendamento.use-case.js'
-import { EmpresaUseCases } from '../application/use-cases/empresa.use-case.js'
+import { AuthUseCases } from './application/use-cases/auth.use-case.js'
+import { AgendamentoUseCases } from './application/use-cases/agendamento.use-case.js'
+import { EmpresaUseCases } from './application/use-cases/empresa.use-case.js'
 
 // Controllers
-import { createAuthRouter } from './http/controllers/auth.controller.js'
-import { createOrganizacaoRouter } from './http/controllers/organizacao.controller.js'
-import { createProfissionalRouter } from './http/controllers/profissional.controller.js'
-import { createSlotRouter } from './http/controllers/slot.controller.js'
-import { createAgendamentoRouter } from './http/controllers/agendamento.controller.js'
-import { createContratoRouter } from './http/controllers/contrato.controller.js'
-import { createDashboardRouter } from './http/controllers/dashboard.controller.js'
+import { createAuthRouter } from './infrastructure/http/controllers/auth.controller.js'
+import { createOrganizacaoRouter } from './infrastructure/http/controllers/organizacao.controller.js'
+import { createProfissionalRouter } from './infrastructure/http/controllers/profissional.controller.js'
+import { createSlotRouter } from './infrastructure/http/controllers/slot.controller.js'
+import { createAgendamentoRouter } from './infrastructure/http/controllers/agendamento.controller.js'
+import { createContratoRouter } from './infrastructure/http/controllers/contrato.controller.js'
+import { createDashboardRouter } from './infrastructure/http/controllers/dashboard.controller.js'
 
 // Erros de domínio
-import { DomainError } from '../domain/errors.js'
+import { DomainError } from './domain/errors.js'
 
 export function createApp(): Express {
   const app = express()
