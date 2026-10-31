@@ -1,31 +1,32 @@
 import type { Knex } from 'knex'
+import path from 'path'
+import { databaseUrl } from './config.js'
 
 const config: { [key: string]: Knex.Config } = {
   development: {
     client: 'pg',
-    connection:
-      process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/agendamento_db',
+    connection: databaseUrl,
     migrations: {
-      directory: './migrations',
+      directory: path.join(__dirname, 'migrations'),
       extension: 'ts',
       tableName: 'knex_migrations',
     },
     seeds: {
-      directory: './seeds',
+      directory: path.join(__dirname, 'seeds'),
       extension: 'ts',
     },
     pool: { min: 2, max: 10 },
   },
   production: {
     client: 'pg',
-    connection: process.env.DATABASE_URL,
+    connection: databaseUrl,
     migrations: {
-      directory: './migrations',
+      directory: path.join(__dirname, 'migrations'),
       extension: 'js',
       tableName: 'knex_migrations',
     },
     seeds: {
-      directory: './seeds',
+      directory: path.join(__dirname, 'seeds'),
       extension: 'js',
     },
     pool: { min: 2, max: 20 },

@@ -1,11 +1,9 @@
 import knex, { Knex } from 'knex'
-
-const connectionString =
-  process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/agendamento_db'
+import { databaseUrl } from './config.js'
 
 export const db: Knex = knex({
   client: 'pg',
-  connection: connectionString,
+  connection: databaseUrl,
   pool: {
     min: 2,
     max: 10,
