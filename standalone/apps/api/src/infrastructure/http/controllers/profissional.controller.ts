@@ -20,7 +20,7 @@ export function createProfissionalRouter(
     }
   })
 
-  // GET /usuarios - Lista geral de usuários (para vincular em contratos/profissionais)
+  // GET /profissionais/usuarios - Lista geral de usuários (para vincular em contratos/profissionais)
   router.get(
     '/usuarios',
     auth,
@@ -29,6 +29,56 @@ export function createProfissionalRouter(
       try {
         const usuarios = await empresaUseCases.listarUsuarios()
         res.json(usuarios)
+      } catch (err) {
+        next(err)
+      }
+    },
+  )
+
+  // GET /profissionais/:id - Detalhes do profissional
+  router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const profissional = await empresaUseCases.obterProfissional(req.params.id)
+      res.json(profissional)
+    } catch (err) {
+      next(err)
+    }
+  })
+
+  // PUT /profissionais/:id - Atualiza dados cadastrais do profissional
+  router.put(
+    '/:id',
+    auth,
+    requireRole('admin', 'gestor'),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const { name, email, image } = req.body
+        const atualizado = await empresaUseCases.atualizarUsuario(req.params.id, {
+          name,
+          email,
+          image,
+        })
+        res.json(atualizado)
+      } catch (err) {
+        next(err)
+      }
+    },
+  )
+
+  // PATCH /profissionais/:id - Atualiza parcialmente dados cadastrais do profissional
+  router.patch(
+    '/:id',
+    auth,
+    requireRole('admin', 'gestor'),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const { name, email, image } = req.body
+        const atualizado = await empresaUseCases.atualizarUsuario(req.params.id, {
+          name,
+          email,
+          image,
+        })
+        res.json(atualizado)
       } catch (err) {
         next(err)
       }

@@ -274,6 +274,83 @@ export class AgendamentoUseCases {
     }
   }
 
+  async obterAgendamento(id: string, solicitanteId: string, solicitantePerfis: string[]) {
+    const agendamento = await this.agendamentoRepo.findById(id)
+    if (!agendamento) {
+      throw new NotFoundError('Agendamento não encontrado.')
+    }
+
+    if (agendamento.id_usuario !== solicitanteId) {
+      const isStaff = await this.isStaffOrAdmin(
+        solicitanteId,
+        agendamento.id_organizacao,
+        solicitantePerfis,
+      )
+      if (!isStaff) {
+        throw new ForbiddenError('Acesso negado a este agendamento.')
+      }
+    }
+
+    const org = await this.orgRepo.findById(agendamento.id_organizacao)
+    const slot = await this.slotRepo.findById(agendamento.id_slot)
+    const usuario = await this.userRepo.findById(agendamento.id_usuario)
+
+    return {
+      ...agendamento,
+      expand: {
+        id_slot: slot,
+        id_organizacao: org,
+        id_usuario: usuario ? { id: usuario.id, name: usuario.name, email: usuario.email } : null,
+      },
+    }
+  }
+
+  async atualizarAgendamento(
+    id: string,
+    dados: { observacao?: string; status?: any },
+    solicitanteId: string,
+    solicitantePerfis: string[],
+  ) {
+    const agendamento = await this.agendamentoRepo.findById(id)
+    if (!agendamento) {
+      throw new NotFoundError('Agendamento não encontrado.')
+    }
+
+    const isStaff = await this.isStaffOrAdmin(
+      solicitanteId,
+      agendamento.id_organizacao,
+      solicitantePerfis,
+    )
+    if (!isStaff && agendamento.id_usuario !== solicitanteId) {
+      throw new ForbiddenError('Você não tem permissão para alterar este agendamento.')
+    }
+
+    // Se o usuário comum tentar alterar status diretamente (sem ser cancelar), bloqueia
+    if (dados.status && !isStaff) {
+      throw new ForbiddenError('Apenas a equipe gestora pode alterar o status diretamente.')
+    }
+
+    return this.agendamentoRepo.update(id, dados)
+  }
+
+  async deletarAgendamento(id: string, solicitanteId: string, solicitantePerfis: string[]) {
+    const agendamento = await this.agendamentoRepo.findById(id)
+    if (!agendamento) {
+      throw new NotFoundError('Agendamento não encontrado.')
+    }
+
+    const isStaff = await this.isStaffOrAdmin(
+      solicitanteId,
+      agendamento.id_organizacao,
+      solicitantePerfis,
+    )
+    if (!isStaff) {
+      throw new ForbiddenError('Apenas administradores ou gestores podem excluir agendamentos.')
+    }
+
+    return this.agendamentoRepo.delete(id)
+  }
+
   async listarMeusAgendamentos(id_usuario: string) {
     return this.agendamentoRepo.listByUsuario(id_usuario)
   }

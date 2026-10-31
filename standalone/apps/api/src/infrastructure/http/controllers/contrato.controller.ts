@@ -31,6 +31,25 @@ export function createContratoRouter(
     }
   })
 
+  // GET /contratos/:id - Detalha contrato
+  router.get('/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = req.user!
+      const contrato = await empresaUseCases.obterContrato(req.params.id)
+
+      // Usuário comum só pode consultar seu próprio contrato
+      const isStaff = user.perfis.some((p) => ['admin', 'gestor', 'profissional'].includes(p))
+      if (!isStaff && contrato.id_usuario !== user.id) {
+        res.status(403).json({ error: 'Acesso negado a este contrato.' })
+        return
+      }
+
+      res.json(contrato)
+    } catch (err) {
+      next(err)
+    }
+  })
+
   // POST /contratos - Criação de contrato (admin/gestor)
   router.post(
     '/',
@@ -72,6 +91,21 @@ export function createContratoRouter(
         })
 
         res.status(201).json(contrato)
+      } catch (err) {
+        next(err)
+      }
+    },
+  )
+
+  // PUT /contratos/:id - Atualização completa do contrato
+  router.put(
+    '/:id',
+    auth,
+    requireRole('admin', 'gestor'),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const atualizado = await empresaUseCases.atualizarContrato(req.params.id, req.body)
+        res.json(atualizado)
       } catch (err) {
         next(err)
       }

@@ -76,5 +76,65 @@ export function createAgendamentoRouter(
     },
   )
 
+  // GET /agendamentos/:id - Detalha agendamento
+  router.get('/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = req.user!
+      const agendamento = await agendamentoUseCases.obterAgendamento(
+        req.params.id,
+        user.id,
+        user.perfis,
+      )
+      res.json(agendamento)
+    } catch (err) {
+      next(err)
+    }
+  })
+
+  // PUT /agendamentos/:id - Atualiza observação/status do agendamento
+  router.put('/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = req.user!
+      const { observacao, status } = req.body
+      const atualizado = await agendamentoUseCases.atualizarAgendamento(
+        req.params.id,
+        { observacao, status },
+        user.id,
+        user.perfis,
+      )
+      res.json(atualizado)
+    } catch (err) {
+      next(err)
+    }
+  })
+
+  // PATCH /agendamentos/:id - Atualiza parcialmente observação/status do agendamento
+  router.patch('/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = req.user!
+      const { observacao, status } = req.body
+      const atualizado = await agendamentoUseCases.atualizarAgendamento(
+        req.params.id,
+        { observacao, status },
+        user.id,
+        user.perfis,
+      )
+      res.json(atualizado)
+    } catch (err) {
+      next(err)
+    }
+  })
+
+  // DELETE /agendamentos/:id - Exclui agendamento (admin/gestor)
+  router.delete('/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = req.user!
+      await agendamentoUseCases.deletarAgendamento(req.params.id, user.id, user.perfis)
+      res.status(204).send()
+    } catch (err) {
+      next(err)
+    }
+  })
+
   return router
 }

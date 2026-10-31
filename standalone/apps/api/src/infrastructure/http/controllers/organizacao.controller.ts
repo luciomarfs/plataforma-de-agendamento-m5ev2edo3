@@ -56,6 +56,32 @@ export function createOrganizacaoRouter(
     },
   )
 
+  // PUT /organizacoes/:id - Substituição/atualização completa
+  router.put(
+    '/:id',
+    auth,
+    requireRole('admin', 'gestor'),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const { codigo, nome, descricao, telefone, endereco } = req.body
+        if (!nome) {
+          res.status(400).json({ error: 'Nome da organização é obrigatório.' })
+          return
+        }
+        const atualizada = await empresaUseCases.atualizarOrganizacao(req.params.id, {
+          codigo,
+          nome,
+          descricao: descricao || null,
+          telefone: telefone || null,
+          endereco: endereco || null,
+        })
+        res.json(atualizada)
+      } catch (err) {
+        next(err)
+      }
+    },
+  )
+
   // PATCH /organizacoes/:id
   router.patch(
     '/:id',

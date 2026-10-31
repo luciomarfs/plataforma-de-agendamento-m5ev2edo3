@@ -98,6 +98,7 @@ export function createApp(): Express {
         auth: '/api/auth',
         organizacoes: '/api/organizacoes',
         profissionais: '/api/profissionais',
+        usuarios: '/api/profissionais/usuarios',
         slots: '/api/slots',
         agendamentos: '/api/agendamentos',
         contratos: '/api/contratos',

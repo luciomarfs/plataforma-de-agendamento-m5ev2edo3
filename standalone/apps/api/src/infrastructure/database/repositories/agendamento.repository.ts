@@ -114,25 +114,40 @@ export class KnexAgendamentoRepository implements IAgendamentoRepository {
     return this.mapToEntity(inserted || dataToInsert)
   }
 
+  async update(
+    id: string,
+    agendamento: Partial<AgendamentoEntity>,
+    trx?: any,
+  ): Promise<AgendamentoEntity> {
+    const dataToUpdate: any = {
+      ...agendamento,
+      update_at: new Date(),
+    }
+    delete dataToUpdate.id_agendamento
+
+    const [updated] = await this.getQuery(trx)
+      .where({ id_agendamento: id })
+      .update(dataToUpdate)
+      .returning('*')
+
+    if (!updated) {
+      const current = await this.findById(id, trx)
+      if (!current) throw new Error('Agendamento não encontrado para atualização.')
+      return current
+    }
+    return this.mapToEntity(updated)
+  }
+
   async updateStatus(
     id: string,
     status: AgendamentoEntity['status'],
     trx?: any,
   ): Promise<AgendamentoEntity> {
-    const [updated] = await this.getQuery(trx)
-      .where({ id_agendamento: id })
-      .update({
-        status,
-        update_at: new Date(),
-      })
-      .returning('*')
+    return this.update(id, { status }, trx)
+  }
 
-    if (!updated) {
-      const current = await this.findById(id, trx)
-      if (!current) throw new Error('Agendamento não encontrado para atualizar status.')
-      return current
-    }
-    return this.mapToEntity(updated)
+  async delete(id: string, trx?: any): Promise<void> {
+    await this.getQuery(trx).where({ id_agendamento: id }).del()
   }
 
   async countPorPeriodo(options: {

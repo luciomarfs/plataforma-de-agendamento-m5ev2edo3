@@ -56,6 +56,22 @@ export class EmpresaUseCases {
     return this.userRepo.listAll()
   }
 
+  async obterUsuario(id: string) {
+    const usuario = await this.userRepo.findById(id)
+    if (!usuario) throw new NotFoundError('Usuário não encontrado.')
+    const acesso = await this.acessoRepo.findByUsuarioId(id)
+    return {
+      ...usuario,
+      perfis: acesso?.perfis || ['usuario'],
+    }
+  }
+
+  async atualizarUsuario(id: string, dados: { name?: string; email?: string; image?: string }) {
+    const usuario = await this.userRepo.findById(id)
+    if (!usuario) throw new NotFoundError('Usuário não encontrado.')
+    return this.userRepo.update(id, dados)
+  }
+
   async listarProfissionais() {
     const [usuarios, acessos] = await Promise.all([
       this.userRepo.listAll(),
@@ -69,6 +85,17 @@ export class EmpresaUseCases {
         perfis.includes('profissional') || perfis.includes('admin') || perfis.includes('gestor')
       )
     })
+  }
+
+  async obterProfissional(id: string) {
+    const usuario = await this.obterUsuario(id)
+    const perfis = usuario.perfis || []
+    const isProfissional =
+      perfis.includes('profissional') || perfis.includes('admin') || perfis.includes('gestor')
+    if (!isProfissional) {
+      throw new NotFoundError('Profissional não encontrado.')
+    }
+    return usuario
   }
 
   async atualizarPerfisUsuario(id_usuario: string, perfis: string[]) {
@@ -101,9 +128,15 @@ export class EmpresaUseCases {
     return this.slotRepo.list(options)
   }
 
+  async obterSlot(id: string) {
+    const slot = await this.slotRepo.findById(id)
+    if (!slot) throw new NotFoundError('Horário (slot) não encontrado.')
+    return slot
+  }
+
   async criarSlot(dados: {
     id_organizacao: string
-    id_profissional?: string
+    id_profissional?: string | null
     data: string
     inicio: string
     fim: string
@@ -123,10 +156,12 @@ export class EmpresaUseCases {
   }
 
   async atualizarSlot(id: string, dados: any) {
+    await this.obterSlot(id)
     return this.slotRepo.update(id, dados)
   }
 
   async deletarSlot(id: string) {
+    await this.obterSlot(id)
     return this.slotRepo.delete(id)
   }
 
@@ -135,15 +170,23 @@ export class EmpresaUseCases {
     return this.contratoRepo.list(options)
   }
 
+  async obterContrato(id: string) {
+    const contrato = await this.contratoRepo.findById(id)
+    if (!contrato) throw new NotFoundError('Contrato não encontrado.')
+    return contrato
+  }
+
   async criarContrato(dados: any) {
     return this.contratoRepo.create(dados)
   }
 
   async atualizarContrato(id: string, dados: any) {
+    await this.obterContrato(id)
     return this.contratoRepo.update(id, dados)
   }
 
   async deletarContrato(id: string) {
+    await this.obterContrato(id)
     return this.contratoRepo.delete(id)
   }
 

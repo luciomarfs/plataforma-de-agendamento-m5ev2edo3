@@ -25,6 +25,16 @@ export function createSlotRouter(
     }
   })
 
+  // GET /slots/:id - Detalha slot específico
+  router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const slot = await empresaUseCases.obterSlot(req.params.id)
+      res.json(slot)
+    } catch (err) {
+      next(err)
+    }
+  })
+
   // POST /slots - Cria um slot individual (admin/gestor/profissional)
   router.post(
     '/',
@@ -71,6 +81,21 @@ export function createSlotRouter(
         }
         const criados = await empresaUseCases.criarSlotsLote(slots)
         res.status(201).json(criados)
+      } catch (err) {
+        next(err)
+      }
+    },
+  )
+
+  // PUT /slots/:id - Atualiza slot completo
+  router.put(
+    '/:id',
+    auth,
+    requireRole('admin', 'gestor', 'profissional'),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const atualizado = await empresaUseCases.atualizarSlot(req.params.id, req.body)
+        res.json(atualizado)
       } catch (err) {
         next(err)
       }

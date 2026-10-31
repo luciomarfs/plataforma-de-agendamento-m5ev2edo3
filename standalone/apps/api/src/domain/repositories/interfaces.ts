@@ -58,15 +58,18 @@ export interface ISlotRepository {
 
 export interface IAgendamentoRepository {
   findById(id: string, trx?: any): Promise<AgendamentoEntity | null>
+  listAll?(): Promise<AgendamentoEntity[]>
   listByUsuario(id_usuario: string): Promise<AgendamentoEntity[]>
   listByOrganizacao(id_organizacao: string): Promise<AgendamentoEntity[]>
   findExistente(id_slot: string, id_usuario: string): Promise<AgendamentoEntity | null>
   create(agendamento: Partial<AgendamentoEntity>, trx?: any): Promise<AgendamentoEntity>
+  update(id: string, agendamento: Partial<AgendamentoEntity>, trx?: any): Promise<AgendamentoEntity>
   updateStatus(
     id: string,
     status: AgendamentoEntity['status'],
     trx?: any,
   ): Promise<AgendamentoEntity>
+  delete(id: string, trx?: any): Promise<void>
   countPorPeriodo(options: {
     id_usuario: string
     id_organizacao: string
