@@ -500,6 +500,13 @@ html.light {
 .light .text-cyan-300 {
   color: #0891b2;
 }
+/* Acentos ciano/sky da landpage harmonizada (Index.tsx) */
+.light .text-cyan-500 {
+  color: #0e7490;
+}
+.light .text-sky-300 {
+  color: #0369a1;
+}
 .light h4.text-cyan-300,
 .light h2.text-cyan-300,
 .light h3.text-cyan-300 {
@@ -627,6 +634,9 @@ html.light {
 .light .border-cyan-500\/20 {
   border-color: rgb(8 145 178 / 0.3);
 }
+.light .hover\:border-cyan-500\/30:hover {
+  border-color: rgb(8 145 178 / 0.4);
+}
 .light .border-emerald-400\/30 {
   border-color: rgb(5 150 105 / 0.3);
 }
@@ -701,11 +711,30 @@ html.light {
 .light .from-cyan-500.via-teal-500.to-blue-600:hover {
   --tw-gradient-stops: #0e7490, #1e40af;
 }
-.light .from-emerald-500.via-teal-500.to-cyan-500 {
-  --tw-gradient-stops: #059669, #0d9488, #0891b2;
+/* Título do hero: gradiente de texto sky->cyan -> tom escuro legível */
+.light .from-sky-300.via-cyan-300 {
+  --tw-gradient-stops: #0e7490, #0891b2 50%, #1d4ed8;
 }
-.light .from-emerald-500.via-teal-500.to-cyan-500:hover {
-  --tw-gradient-stops: #047857, #0f766e, #0e7490;
+/* Caixas de credenciais de demonstração (bg-slate-950/60) */
+.light .bg-slate-950\/60 {
+  background-color: rgb(241 245 249 / 0.8);
+}
+/* Pill do topo e contêineres discretos (bg-slate-900/50) */
+.light .bg-slate-900\/50 {
+  background-color: rgb(226 232 240 / 0.5);
+}
+/* Alternador de tema da landpage (fundo slate-950/80) */
+.light .bg-slate-950\/80.backdrop-blur-md {
+  background-color: rgb(241 245 249 / 0.85);
+}
+/* Botões sólidos cyan-600 (landpage, "Minha Agenda", "Agendar" vazio):
+   no claro, ciano escuro p/ contraste com texto branco */
+.light .bg-cyan-600 {
+  background-color: #0e7490;
+}
+.light .bg-cyan-600:hover,
+.light .hover\:bg-cyan-500:hover {
+  background-color: #0891b2;
 }
 /* Botões "outline" com borda slate-700 (Voltar para Hoje etc.) */
 .light .border-slate-700.text-xs {
