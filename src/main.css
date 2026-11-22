@@ -487,12 +487,22 @@ html.light {
 }
 
 /* Acentos: versão escura para contraste no fundo claro */
+/* "Multi-Org" usa text-cyan-400 e "Contratos" text-teal-400 —
+   estes são os tons de referência aprovados pelo usuário. */
 .light .text-emerald-400,
 .light .text-emerald-300 {
   color: #047857;
 }
-.light .text-cyan-400,
+.light .text-cyan-400 {
+  color: #0891b2;
+}
+/* Títulos de seção/academia (h2/h3) e botões "Minha Agenda" */
 .light .text-cyan-300 {
+  color: #0891b2;
+}
+.light h4.text-cyan-300,
+.light h2.text-cyan-300,
+.light h3.text-cyan-300 {
   color: #0e7490;
 }
 .light .text-teal-400,
@@ -514,6 +524,193 @@ html.light {
 }
 .light .text-emerald-200 {
   color: #065f46;
+}
+
+/* Cinzas fracos demais no claro (ícones/labels "apagados") */
+.light .text-slate-600,
+.light .text-slate-700 {
+  color: #475569;
+}
+
+/* Cartões de horário (SlotCard) — fundo branco, texto legível */
+.light .bg-slate-900\/80,
+.light .bg-slate-900\/70,
+.light .bg-slate-900\/40 {
+  background-color: #ffffff;
+}
+/* Contraste dos ícones dentro dos cartões claros (azul sobre branco) */
+.light .SlotCard-pro-block .text-blue-400 {
+  color: #1d4ed8;
+}
+/* Título "Horários Disponíveis" e demais h2 com Clock cyan */
+.light h2 .text-cyan-400 {
+  color: #0e7490;
+}
+.light .text-rose-400,
+.light .text-rose-300 {
+  color: #be123c;
+}
+.light .bg-rose-500\/20 {
+  background-color: #ffe4e6;
+}
+
+/* Bloco interno "Profissional / Fisioterapeuta" dos cartões */
+.light .SlotCard-pro-block {
+  background-color: #f1f5f9;
+}
+.light .SlotCard-pro-block .bg-blue-500\/20 {
+  background-color: #dbeafe;
+}
+.light .SlotCard-pro-block .text-slate-400,
+.light .SlotCard-pro-block .text-slate-300,
+.light .SlotCard-pro-block .text-slate-200 {
+  color: #334155;
+}
+.light .SlotCard-pro-block .bg-cyan-950\/40 {
+  background-color: #e0f2fe;
+}
+.light .SlotCard-accent-badge .bg-cyan-950\/40 {
+  background-color: #e0f2fe;
+}
+.light .SlotCard-accent-badge .border-cyan-500\/30 {
+  border-color: rgb(8 145 178 / 0.25);
+}
+.light .SlotCard-accent-badge .text-cyan-300 {
+  color: #0e7490;
+}
+
+/* Chip de vagas ("X vagas livres" / "Lotado") */
+.light .SlotCard-status-chip {
+  background-color: #d1fae5;
+  border-color: rgb(5 150 105 / 0.3);
+}
+.light .SlotCard-status-chip .text-emerald-300 {
+  color: #047857;
+}
+.light .SlotCard-status-chip-full {
+  background-color: #ffe4e6;
+  border-color: rgb(225 29 72 / 0.3);
+}
+.light .SlotCard-status-chip-full .text-rose-300 {
+  color: #be123c;
+}
+.light .SlotCard-accent-icon {
+  color: #0e7490;
+}
+
+/* Pills de estado com fundo "-950" — versão clara */
+.light .bg-cyan-950\/50,
+.light .bg-cyan-950\/40,
+.light .bg-cyan-950\/30 {
+  background-color: #e0f2fe;
+}
+.light .bg-cyan-950\/60 {
+  background-color: #d8eefb;
+}
+.light .bg-emerald-950\/60,
+.light .bg-emerald-950\/40 {
+  background-color: #d1fae5;
+}
+.light .bg-blue-950\/60 {
+  background-color: #dbeafe;
+}
+.light .bg-amber-950\/60 {
+  background-color: #fef3c7;
+}
+.light .text-amber-300 {
+  color: #b45309;
+}
+.light .text-blue-300 {
+  color: #1d4ed8;
+}
+.light .border-cyan-500\/30,
+.light .border-cyan-500\/20 {
+  border-color: rgb(8 145 178 / 0.3);
+}
+.light .border-emerald-400\/30 {
+  border-color: rgb(5 150 105 / 0.3);
+}
+.light .border-emerald-800\/50,
+.light .border-rose-800\/50,
+.light .border-blue-800\/50,
+.light .border-amber-800\/50,
+.light .border-cyan-800\/50 {
+  border-color: rgb(148 163 184 / 0.6);
+}
+
+/* Pills de "estado claro" que estavam apagadas (bg-slate-800 + texto cinza) */
+.light .bg-slate-800.text-slate-500 {
+  background-color: #e2e8f0;
+  color: #64748b;
+}
+
+/* Diálogos e Cards (bg-slate-900 sólido): fundo branco p/ texto não sumir */
+.light .bg-slate-900.border-slate-800 {
+  background-color: #ffffff;
+}
+.light .bg-slate-900\/80.border-slate-800 {
+  background-color: #ffffff;
+}
+/* Painel interno escuro dentro dos diálogos e modais */
+.light .bg-slate-950\/80.border-slate-800 {
+  background-color: #f1f5f9;
+}
+
+/* Botão "Cancelar Vaga" (rose escuro) — versão clara legível */
+.light .bg-rose-950\/80 {
+  background-color: #ffe4e6;
+}
+.light .bg-rose-950\/80.text-rose-300 {
+  color: #be123c;
+}
+.light .hover\:bg-rose-900:hover {
+  background-color: #fecdd3;
+}
+.light .bg-rose-600 {
+  background-color: #e11d48;
+}
+.light .hover\:bg-rose-500:hover {
+  background-color: #f43f5e;
+}
+/* Inputs e selects escuros dentro de páginas claras */
+.light .bg-slate-950\/80.border-slate-700\/80,
+.light .bg-slate-950.border-slate-800,
+.light .bg-slate-950\/80.border-slate-800 {
+  background-color: #ffffff;
+}
+.light .border-slate-700\/80 {
+  border-color: #cbd5e1;
+}
+.light .text-white.text-xs,
+.light .text-white.text-sm,
+.light select.text-white,
+.light input.text-white {
+  color: #0f172a;
+}
+/* Foco em inputs claros (borda cyan já vem do escuro) */
+.light .focus\:border-cyan-500:focus {
+  border-color: #0891b2;
+}
+
+/* Botões de gradiente cyan->blue: no claro, versão escura p/ contraste */
+.light .from-cyan-500.to-blue-600,
+.light .from-cyan-500.via-teal-500.to-blue-600 {
+  --tw-gradient-stops: #0891b2, #1d4ed8;
+}
+.light .from-cyan-500.to-blue-600:hover,
+.light .from-cyan-500.via-teal-500.to-blue-600:hover {
+  --tw-gradient-stops: #0e7490, #1e40af;
+}
+.light .from-emerald-500.via-teal-500.to-cyan-500 {
+  --tw-gradient-stops: #059669, #0d9488, #0891b2;
+}
+.light .from-emerald-500.via-teal-500.to-cyan-500:hover {
+  --tw-gradient-stops: #047857, #0f766e, #0e7490;
+}
+/* Botões "outline" com borda slate-700 (Voltar para Hoje etc.) */
+.light .border-slate-700.text-xs {
+  border-color: #94a3b8;
+  color: #475569;
 }
 
 /* Bordas */

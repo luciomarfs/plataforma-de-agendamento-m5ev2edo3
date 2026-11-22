@@ -19,7 +19,7 @@ export const SlotCard: React.FC<SlotCardProps> = ({ slot, onSelect }) => {
 
   return (
     <Card
-      className={`relative overflow-hidden border transition-all rounded-2xl ${
+      className={`SlotCard-accent-badge relative overflow-hidden border transition-all rounded-2xl ${
         estaCheio
           ? 'bg-slate-950/60 border-slate-800/80 opacity-70'
           : 'bg-slate-900/80 border-slate-800 hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/10'
@@ -43,7 +43,7 @@ export const SlotCard: React.FC<SlotCardProps> = ({ slot, onSelect }) => {
             >
               {slot.recurso}
             </Badge>
-            <CardTitle className="text-lg font-bold text-white flex items-center gap-1.5 mt-1">
+            <CardTitle className="SlotCard-accent-icon text-lg font-bold text-white flex items-center gap-1.5 mt-1">
               <Clock className="h-4 w-4 text-cyan-400 shrink-0" />
               {slot.inicio} às {slot.fim}
             </CardTitle>
@@ -53,8 +53,8 @@ export const SlotCard: React.FC<SlotCardProps> = ({ slot, onSelect }) => {
             <span
               className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${
                 estaCheio
-                  ? 'bg-rose-950/60 text-rose-300 border border-rose-800/50'
-                  : 'bg-emerald-950/60 text-emerald-300 border border-emerald-800/50'
+                  ? 'SlotCard-status-chip-full bg-rose-950/60 text-rose-300 border border-rose-800/50'
+                  : 'SlotCard-status-chip bg-emerald-950/60 text-emerald-300 border border-emerald-800/50'
               }`}
             >
               {estaCheio ? 'Lotado' : `${livres} vagas livres`}
@@ -64,7 +64,7 @@ export const SlotCard: React.FC<SlotCardProps> = ({ slot, onSelect }) => {
       </CardHeader>
 
       <CardContent className="space-y-4 text-xs">
-        <div className="flex items-center gap-2 p-2 rounded-xl bg-slate-950/60 border border-slate-800 text-slate-300">
+        <div className="SlotCard-pro-block flex items-center gap-2 p-2 rounded-xl bg-slate-950/60 border border-slate-800 text-slate-300">
           <div className="h-7 w-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
             <UserIcon className="h-3.5 w-3.5" />
           </div>
