@@ -26,12 +26,37 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
   const location = useLocation()
 
   const navItems = [
-    { label: 'Visão Geral', path: '/admin', icon: Activity },
-    { label: 'Academias & Orgs', path: '/admin/organizacoes', icon: Building2 },
-    { label: 'Profissionais & Vínculos', path: '/admin/profissionais', icon: Users },
-    { label: 'Preencher Agenda (Slots)', path: '/admin/slots', icon: Calendar },
-    { label: 'Contratos de Alunos', path: '/admin/contratos', icon: FileText },
-    { label: 'Backlog do Produto', path: '/admin/backlog', icon: ListTodo },
+    { label: 'Visão Geral', path: '/admin', icon: Activity, accent: 'text-cyan-400' },
+    {
+      label: 'Academias & Orgs',
+      path: '/admin/organizacoes',
+      icon: Building2,
+      accent: 'text-violet-400',
+    },
+    {
+      label: 'Profissionais & Vínculos',
+      path: '/admin/profissionais',
+      icon: Users,
+      accent: 'text-amber-400',
+    },
+    {
+      label: 'Preencher Agenda (Slots)',
+      path: '/admin/slots',
+      icon: Calendar,
+      accent: 'text-sky-400',
+    },
+    {
+      label: 'Contratos de Alunos',
+      path: '/admin/contratos',
+      icon: FileText,
+      accent: 'text-fuchsia-400',
+    },
+    {
+      label: 'Backlog do Produto',
+      path: '/admin/backlog',
+      icon: ListTodo,
+      accent: 'text-rose-400',
+    },
   ]
 
   return (
@@ -113,7 +138,7 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
                       : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
                   }`}
                 >
-                  <Icon className="h-3.5 w-3.5" />
+                  <Icon className={`h-3.5 w-3.5 ${active ? '' : item.accent}`} />
                   {item.label}
                 </Link>
               )

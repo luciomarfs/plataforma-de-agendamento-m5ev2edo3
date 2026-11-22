@@ -64,7 +64,7 @@ export default function AdminDashboard() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-blue-950/60 border border-blue-500/30 text-blue-400 mb-2">
-              <Sparkles className="h-3 w-3" />
+              <Sparkles className="h-3 w-3 text-amber-400" />
               Painel Geral de Controle
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">

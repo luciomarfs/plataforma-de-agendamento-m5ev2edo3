@@ -322,7 +322,7 @@ export default function AdminContratos() {
         <DialogContent className="bg-slate-900 border-slate-800 text-slate-100 sm:max-w-md rounded-3xl">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-white flex items-center gap-2">
-              <FileText className="h-5 w-5 text-cyan-400" />
+              <FileText className="h-5 w-5 text-purple-400" />
               {editingContrato ? 'Editar Contrato' : 'Novo Contrato de Aluno'}
             </DialogTitle>
           </DialogHeader>

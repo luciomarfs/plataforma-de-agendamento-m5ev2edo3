@@ -206,7 +206,7 @@ export default function AdminProfissionais() {
                   </CardHeader>
                   <CardContent className="space-y-2 text-xs text-slate-300">
                     <div className="flex items-center gap-2 p-2 rounded-xl bg-slate-950/60 border border-slate-800">
-                      <Building2 className="h-4 w-4 text-cyan-400 shrink-0" />
+                      <Building2 className="h-4 w-4 text-violet-400 shrink-0" />
                       <div className="truncate">
                         <span className="text-[10px] text-slate-400 block">
                           Atuando na Academia:
@@ -241,7 +241,7 @@ export default function AdminProfissionais() {
         <DialogContent className="bg-slate-900 border-slate-800 text-slate-100 sm:max-w-md rounded-3xl">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-white flex items-center gap-2">
-              <UserCheck className="h-5 w-5 text-cyan-400" />
+              <UserCheck className="h-5 w-5 text-amber-400" />
               Vincular Usuário à Organização
             </DialogTitle>
           </DialogHeader>

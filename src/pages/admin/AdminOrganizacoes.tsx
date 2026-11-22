@@ -213,7 +213,7 @@ export default function AdminOrganizacoes() {
                   )}
                   {org.endereco && (
                     <div className="flex items-center gap-1.5 text-slate-400">
-                      <MapPin className="h-3.5 w-3.5 text-cyan-400 shrink-0" />
+                      <MapPin className="h-3.5 w-3.5 text-rose-400 shrink-0" />
                       <span>{org.endereco}</span>
                     </div>
                   )}
@@ -235,7 +235,7 @@ export default function AdminOrganizacoes() {
         <DialogContent className="bg-slate-900 border-slate-800 text-slate-100 sm:max-w-md rounded-3xl">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-white flex items-center gap-2">
-              <Building2 className="h-5 w-5 text-cyan-400" />
+              <Building2 className="h-5 w-5 text-violet-400" />
               {editingOrg ? 'Editar Academia' : 'Nova Academia'}
             </DialogTitle>
           </DialogHeader>

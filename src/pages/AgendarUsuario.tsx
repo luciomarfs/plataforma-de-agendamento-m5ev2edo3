@@ -198,7 +198,7 @@ export default function AgendarUsuario() {
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-6 flex-1 w-full">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-cyan-950/50 border border-cyan-500/30 text-cyan-400 mb-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-400 mb-2">
               <Sparkles className="h-3 w-3" />
               Sessões com Capacidade Limitada
             </div>
@@ -212,7 +212,7 @@ export default function AgendarUsuario() {
 
           {contratoAtual ? (
             <div className="p-3.5 rounded-2xl bg-gradient-to-r from-cyan-950/40 to-slate-900 border border-cyan-500/30 flex items-center gap-4">
-              <div className="h-10 w-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0">
+              <div className="h-10 w-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
               <div className="text-xs">
@@ -242,7 +242,7 @@ export default function AgendarUsuario() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 p-4 rounded-2xl bg-slate-900/60 border border-slate-800/90 backdrop-blur-md">
           <div className="space-y-1.5">
             <Label className="text-xs text-slate-300 font-medium flex items-center gap-1.5">
-              <Building2 className="h-3.5 w-3.5 text-cyan-400" />
+              <Building2 className="h-3.5 w-3.5 text-violet-400" />
               Academia / Organização
             </Label>
             <select
@@ -260,7 +260,7 @@ export default function AgendarUsuario() {
 
           <div className="space-y-1.5">
             <Label className="text-xs text-slate-300 font-medium flex items-center gap-1.5">
-              <CalendarIcon className="h-3.5 w-3.5 text-cyan-400" />
+              <CalendarIcon className="h-3.5 w-3.5 text-amber-400" />
               Data da Sessão
             </Label>
             <Input
@@ -275,7 +275,7 @@ export default function AgendarUsuario() {
             {selectedOrgId && (
               <>
                 <div className="text-slate-200 font-medium flex items-center gap-1 truncate">
-                  <MapPin className="h-3.5 w-3.5 text-cyan-400 shrink-0" />
+                  <MapPin className="h-3.5 w-3.5 text-rose-400 shrink-0" />
                   {organizacoes.find((o) => o.id === selectedOrgId)?.endereco || 'Endereço Central'}
                 </div>
                 <div className="text-[11px] text-slate-400 truncate">
@@ -290,7 +290,7 @@ export default function AgendarUsuario() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-              <Clock className="h-4 w-4 text-cyan-400" />
+              <Clock className="h-4 w-4 text-amber-400" />
               Horários Disponíveis ({dataSelecionada})
             </h2>
             <span className="text-xs text-slate-400">

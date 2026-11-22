@@ -39,12 +39,12 @@ export const SlotCard: React.FC<SlotCardProps> = ({ slot, onSelect }) => {
           <div>
             <Badge
               variant="outline"
-              className="rounded-full text-[10px] px-2.5 py-0.5 border-cyan-500/30 text-cyan-300 bg-cyan-950/40 mb-1"
+              className="rounded-full text-[10px] px-2.5 py-0.5 border-violet-500/30 text-violet-300 bg-violet-950/40 mb-1"
             >
               {slot.recurso}
             </Badge>
             <CardTitle className="SlotCard-accent-icon text-lg font-bold text-white flex items-center gap-1.5 mt-1">
-              <Clock className="h-4 w-4 text-cyan-400 shrink-0" />
+              <Clock className="h-4 w-4 text-amber-400 shrink-0" />
               {slot.inicio} às {slot.fim}
             </CardTitle>
           </div>

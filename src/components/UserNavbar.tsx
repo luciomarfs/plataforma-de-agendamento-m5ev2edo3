@@ -28,7 +28,7 @@ export const UserNavbar: React.FC = () => {
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-2 group">
             <NoWaitFitLogo size="sm" />
-            <span className="hidden sm:inline-block text-[9px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-mono uppercase font-bold ml-1">
+            <span className="hidden sm:inline-block text-[9px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono uppercase font-bold ml-1">
               Aluno
             </span>
           </Link>

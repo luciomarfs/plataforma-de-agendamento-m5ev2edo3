@@ -114,7 +114,7 @@ export default function Index() {
 
           {/* Pill discreta */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 text-xs sm:text-sm font-medium mb-8 backdrop-blur-md">
-            <Zap className="h-4 w-4 text-cyan-500" />
+            <Zap className="h-4 w-4 text-amber-400" />
             <span>Zero Filas • Alta Precisão • Capacidade por Sessão</span>
           </div>
 
@@ -158,14 +158,14 @@ export default function Index() {
             <div className="p-4 rounded-2xl border border-slate-800/80 bg-slate-900/40 backdrop-blur-sm text-left hover:border-cyan-500/30 transition-colors">
               <div className="flex items-center justify-between">
                 <span className="text-xl font-bold text-cyan-300">100% Real</span>
-                <Flame className="w-4 h-4 text-slate-600" />
+                <Flame className="w-4 h-4 text-orange-400" />
               </div>
               <div className="text-xs text-slate-400 mt-1">Vagas por sessão sem superlotação</div>
             </div>
             <div className="p-4 rounded-2xl border border-slate-800/80 bg-slate-900/40 backdrop-blur-sm text-left hover:border-cyan-500/30 transition-colors">
               <div className="flex items-center justify-between">
                 <span className="text-xl font-bold text-cyan-300">Multi-Org</span>
-                <Building2 className="w-4 h-4 text-slate-600" />
+                <Building2 className="w-4 h-4 text-violet-400" />
               </div>
               <div className="text-xs text-slate-400 mt-1">
                 Várias unidades e filiais integradas
@@ -174,14 +174,14 @@ export default function Index() {
             <div className="p-4 rounded-2xl border border-slate-800/80 bg-slate-900/40 backdrop-blur-sm text-left hover:border-cyan-500/30 transition-colors">
               <div className="flex items-center justify-between">
                 <span className="text-xl font-bold text-cyan-300">Contratos</span>
-                <Clock className="w-4 h-4 text-slate-600" />
+                <Clock className="w-4 h-4 text-sky-400" />
               </div>
               <div className="text-xs text-slate-400 mt-1">Controle de saldo e cotas de uso</div>
             </div>
             <div className="p-4 rounded-2xl border border-slate-800/80 bg-slate-900/40 backdrop-blur-sm text-left hover:border-cyan-500/30 transition-colors">
               <div className="flex items-center justify-between">
                 <span className="text-xl font-bold text-cyan-300">WhatsApp</span>
-                <Activity className="w-4 h-4 text-slate-600" />
+                <Activity className="w-4 h-4 text-rose-400" />
               </div>
               <div className="text-xs text-slate-400 mt-1">Confirmação instantânea no celular</div>
             </div>
@@ -240,7 +240,7 @@ export default function Index() {
 
             {/* Card Empresa */}
             <div className="relative p-8 rounded-3xl border border-slate-800/80 bg-slate-900/40 backdrop-blur-sm shadow-lg hover:border-cyan-500/30 transition-colors group">
-              <div className="h-12 w-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-300 mb-6 group-hover:scale-110 transition-transform">
+              <div className="h-12 w-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-300 mb-6 group-hover:scale-110 transition-transform">
                 <Building2 className="h-6 w-6" />
               </div>
               <h3 className="text-xl font-bold text-white mb-2">Painel Corporativo NoWaitFit</h3>
@@ -251,19 +251,19 @@ export default function Index() {
               </p>
               <ul className="space-y-3 text-xs sm:text-sm text-slate-300">
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-cyan-500 shrink-0" />
+                  <CheckCircle2 className="h-4 w-4 text-violet-400 shrink-0" />
                   Grade de slots com capacidade configurável e geração em lote
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-cyan-500 shrink-0" />
+                  <CheckCircle2 className="h-4 w-4 text-violet-400 shrink-0" />
                   Cadastro de profissionais atuando em várias unidades
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-cyan-500 shrink-0" />
+                  <CheckCircle2 className="h-4 w-4 text-violet-400 shrink-0" />
                   Gestão completa de contratos de alunos com cotas diárias/semanais/mensais
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-cyan-500 shrink-0" />
+                  <CheckCircle2 className="h-4 w-4 text-violet-400 shrink-0" />
                   Métricas em tempo real integradas com PostgreSQL/PocketBase
                 </li>
               </ul>
@@ -292,7 +292,7 @@ export default function Index() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 text-xs font-mono">
               <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800">
-                <div className="text-cyan-300 font-bold mb-1">👑 Administrador</div>
+                <div className="text-amber-300 font-bold mb-1">👑 Administrador</div>
                 <div className="text-slate-300">luciomar.fs@gmail.com</div>
                 <div className="text-slate-500">Senha: Skip@Pass</div>
               </div>

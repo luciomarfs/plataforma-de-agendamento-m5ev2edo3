@@ -168,7 +168,7 @@ export default function AdminBacklog() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-cyan-950/50 border border-cyan-500/30 text-cyan-400 mb-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-400 mb-2">
               <Sparkles className="h-3 w-3" />
               Roadmap & Funcionalidades Futuras
             </div>
@@ -245,7 +245,7 @@ export default function AdminBacklog() {
         <DialogContent className="bg-slate-900 border-slate-800 text-slate-100 sm:max-w-md rounded-3xl">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-white flex items-center gap-2">
-              <ListTodo className="h-5 w-5 text-cyan-400" />
+              <ListTodo className="h-5 w-5 text-rose-400" />
               Novo Item de Backlog
             </DialogTitle>
           </DialogHeader>

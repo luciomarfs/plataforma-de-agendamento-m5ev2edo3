@@ -291,11 +291,11 @@ export default function AdminSlots() {
                 >
                   <CardHeader className="pb-2 pt-4 flex flex-row items-start justify-between">
                     <div>
-                      <Badge className="bg-cyan-950/60 text-cyan-300 border border-cyan-800/50 text-[10px] mb-1">
+                      <Badge className="bg-violet-950/60 text-violet-300 border border-violet-800/50 text-[10px] mb-1">
                         {slot.recurso}
                       </Badge>
                       <CardTitle className="text-lg font-bold text-white flex items-center gap-1.5 mt-1">
-                        <Clock className="h-4 w-4 text-cyan-400" />
+                        <Clock className="h-4 w-4 text-amber-400" />
                         {slot.inicio} às {slot.fim}
                       </CardTitle>
                     </div>
@@ -369,7 +369,7 @@ export default function AdminSlots() {
         <DialogContent className="bg-slate-900 border-slate-800 text-slate-100 sm:max-w-md rounded-3xl">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-white flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-cyan-400" />
+              <Sparkles className="h-5 w-5 text-amber-400" />
               {editingSlot ? 'Editar Horário (Slot)' : 'Preencher Novo Horário (Slot)'}
             </DialogTitle>
           </DialogHeader>
