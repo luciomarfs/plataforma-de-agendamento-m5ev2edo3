@@ -16,6 +16,7 @@ import {
   DashboardMetricas,
 } from './services/api'
 import { NoWaitFitLogo } from './components/NoWaitFitLogo'
+import { ThemeToggle } from './components/ThemeToggle'
 import {
   Building2,
   Calendar,
@@ -516,7 +517,10 @@ export function App() {
   // TELA DE LOGIN
   if (!token || !user) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-slate-100 selection:bg-cyan-500">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-slate-100 selection:bg-cyan-500 relative">
+        <div className="absolute top-4 right-4 z-10">
+          <ThemeToggle />
+        </div>
         <div className="w-full max-w-md bg-slate-900/90 border border-slate-700/80 rounded-2xl p-7 shadow-2xl backdrop-blur-md">
           <div className="flex flex-col items-center mb-6 text-center">
             <NoWaitFitLogo size="lg" className="mb-2" />
@@ -604,6 +608,7 @@ export function App() {
               <span className="text-cyan-400 font-mono capitalize">{user.perfis.join(', ')}</span>
             </p>
           </div>
+          <ThemeToggle />
           <button
             onClick={handleLogout}
             className="p-2 hover:bg-slate-800 text-slate-400 hover:text-red-400 rounded-xl transition border border-transparent hover:border-slate-700"

@@ -12,8 +12,15 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
-    const saved = localStorage.getItem('app-theme') as Theme | null
+    const saved = localStorage.getItem('app-theme')
     if (saved === 'light' || saved === 'dark') return saved
+    // Sem escolha salva: respeita a preferência do sistema
+    if (
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-color-scheme: light)').matches
+    ) {
+      return 'light'
+    }
     return 'dark' // Tech Noturno por padrão
   })
 

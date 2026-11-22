@@ -22,3 +22,171 @@
       -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   }
 }
+
+/* ============================================================
+   TEMA CLARO — sobrepõe as utilidades "tech noturno" fixas.
+   As telas usam paleta slate fixa (bg-slate-950, text-white,
+   border-slate-800...). Quando <html class="light">, estas
+   regras (fora de @layer, logo vencem as utilities) invertem
+   superfícies, texto e bordas para a paleta clara, mantendo
+   os acentos emerald/cyan (escurecidos p/ contraste).
+   ============================================================ */
+html.light {
+  color-scheme: light;
+}
+
+.light body {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Superfícies */
+.light .bg-slate-950,
+.light .bg-slate-950\/90 {
+  background-color: #f1f5f9;
+}
+.light .bg-slate-950\/80 {
+  background-color: rgb(241 245 249 / 0.85);
+}
+.light .bg-slate-950\/60,
+.light .bg-slate-950\/40 {
+  background-color: rgb(248 250 252 / 0.8);
+}
+.light .bg-slate-900,
+.light .bg-slate-900\/90 {
+  background-color: #ffffff;
+}
+.light .bg-slate-900\/80 {
+  background-color: rgb(255 255 255 / 0.85);
+}
+.light .bg-slate-900\/70 {
+  background-color: rgb(255 255 255 / 0.75);
+}
+.light .bg-slate-900\/60 {
+  background-color: rgb(255 255 255 / 0.65);
+}
+.light .bg-slate-900\/30 {
+  background-color: rgb(241 245 249 / 0.5);
+}
+.light .bg-slate-800,
+.light .bg-slate-800\/90,
+.light .bg-slate-800\/80 {
+  background-color: #e2e8f0;
+}
+.light .bg-slate-800\/70 {
+  background-color: rgb(226 232 240 / 0.7);
+}
+.light .bg-slate-800\/60 {
+  background-color: rgb(226 232 240 / 0.6);
+}
+.light .bg-slate-800\/50 {
+  background-color: rgb(226 232 240 / 0.5);
+}
+.light .bg-slate-700,
+.light .bg-slate-700\/80,
+.light .bg-slate-700\/60 {
+  background-color: #cbd5e1;
+}
+.light .hover\:bg-slate-800:hover,
+.light .hover\:bg-slate-800\/80:hover,
+.light .hover\:bg-slate-700:hover {
+  background-color: #e2e8f0;
+}
+
+/* Texto */
+.light .text-slate-100,
+.light .text-slate-50,
+.light .text-white {
+  color: #0f172a;
+}
+.light .text-slate-200 {
+  color: #1e293b;
+}
+.light .text-slate-300 {
+  color: #334155;
+}
+.light .text-slate-400 {
+  color: #475569;
+}
+.light .text-slate-500 {
+  color: #64748b;
+}
+.light .text-slate-600 {
+  color: #94a3b8;
+}
+.light .hover\:text-slate-200:hover,
+.light .hover\:text-slate-100:hover,
+.light .hover\:text-white:hover {
+  color: #0f172a;
+}
+.light .hover\:text-slate-400:hover {
+  color: #475569;
+}
+
+/* Acentos: versão escura para contraste no fundo claro */
+.light .text-emerald-400,
+.light .text-emerald-300 {
+  color: #047857;
+}
+.light .text-cyan-400,
+.light .text-cyan-300 {
+  color: #0e7490;
+}
+.light .text-teal-400,
+.light .text-teal-300 {
+  color: #0f766e;
+}
+.light .text-red-400,
+.light .text-red-300 {
+  color: #b91c1c;
+}
+.light .text-emerald-200 {
+  color: #065f46;
+}
+
+/* Bordas */
+.light .border-slate-800,
+.light .border-slate-800\/80,
+.light .border-slate-700,
+.light .border-slate-700\/80,
+.light .border-slate-600 {
+  border-color: #cbd5e1;
+}
+.light .border-slate-700\/60 {
+  border-color: rgb(203 213 225 / 0.9);
+}
+.light .hover\:border-slate-700:hover,
+.light .hover\:border-slate-600:hover {
+  border-color: #94a3b8;
+}
+
+/* Faixas de feedback (sucesso / erro) */
+.light .bg-emerald-950\/90,
+.light .bg-emerald-950\/70,
+.light .bg-emerald-950\/60 {
+  background-color: #d1fae5;
+}
+.light .bg-red-950\/90,
+.light .bg-red-950\/70,
+.light .bg-red-950\/60 {
+  background-color: #fee2e2;
+}
+.light .bg-emerald-900\/80,
+.light .hover\:bg-emerald-900\/80:hover {
+  background-color: #a7f3d0;
+}
+.light .bg-red-900\/80,
+.light .hover\:bg-red-900\/80:hover {
+  background-color: #fecaca;
+}
+.light .border-emerald-800,
+.light .border-emerald-700,
+.light .border-red-800,
+.light .border-red-700 {
+  border-color: rgb(148 163 184 / 0.6);
+}
+
+/* Logo "NoWaitFit": gradiente de texto branco -> texto escuro */
+.light .from-white.via-cyan-100 {
+  --tw-gradient-stops: #0f172a, #0e7490 45%, #06b6d4;
+}

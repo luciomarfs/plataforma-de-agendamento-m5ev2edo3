@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import pb from '@/lib/pocketbase/client'
 import { useAuth } from '@/contexts/AuthContext'
+import { useTheme } from '@/contexts/ThemeContext'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -14,10 +15,11 @@ import {
   CardFooter,
 } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
-import { Lock, Loader2, ArrowLeft, ShieldCheck } from 'lucide-react'
+import { Lock, Loader2, ArrowLeft, ShieldCheck, Sun, Moon } from 'lucide-react'
 
 export default function AlterarSenha() {
   const { user, refreshUser } = useAuth()
+  const { theme, toggleTheme } = useTheme()
   const [oldPassword, setOldPassword] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
@@ -84,6 +86,15 @@ export default function AlterarSenha() {
         >
           <ArrowLeft className="h-4 w-4 mr-1.5" />
           Voltar
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={toggleTheme}
+          className="rounded-full border-slate-800 bg-slate-900/60 hover:bg-slate-800 text-slate-300 h-9 w-9"
+          title={theme === 'dark' ? 'Mudar para tema claro' : 'Mudar para tema escuro'}
+        >
+          {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
         </Button>
       </header>
 

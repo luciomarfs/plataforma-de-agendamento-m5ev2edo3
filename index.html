@@ -8,6 +8,23 @@
     <meta name="description" content="NoWaitFit: Agendamento de alta precisão para academias, estúdios e fisioterapia." />
     <meta name="author" content="Skip (https://goskip.dev)" />
     <meta property="og:image" content="/og-image.png" />
+    <!-- Anti-flash: aplica o tema salvo (ou a preferência do sistema) antes do React montar -->
+    <script>
+      ;(function () {
+        try {
+          var t = localStorage.getItem('app-theme')
+          if (t !== 'light' && t !== 'dark') {
+            t =
+              window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches
+                ? 'light'
+                : 'dark'
+          }
+          document.documentElement.classList.add(t)
+        } catch (e) {
+          document.documentElement.classList.add('dark')
+        }
+      })()
+    </script>
   </head>
 
   <body>
