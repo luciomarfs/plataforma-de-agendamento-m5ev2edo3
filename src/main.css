@@ -648,6 +648,50 @@ html.light {
   border-color: rgb(148 163 184 / 0.6);
 }
 
+/* Acentos coloridos sutis (v0.0.18): violeta, fúcsia, laranja e sky.
+   No claro, os tons -400/-300 ficam claros demais — versões -700 legíveis. */
+.light .text-violet-400,
+.light .text-violet-300 {
+  color: #6d28d9;
+}
+.light .text-fuchsia-400,
+.light .text-fuchsia-300 {
+  color: #a21caf;
+}
+.light .text-orange-400,
+.light .text-orange-300 {
+  color: #c2410c;
+}
+.light .text-sky-400 {
+  color: #0369a1;
+}
+/* Fundos das pills/caixas de acento — versões pastel do claro */
+.light .bg-violet-950\/60,
+.light .bg-violet-950\/40 {
+  background-color: #ede9fe;
+}
+.light .bg-violet-500\/10 {
+  background-color: #ede9fe;
+}
+.light .bg-amber-950\/40 {
+  background-color: #fef3c7;
+}
+.light .bg-amber-500\/10 {
+  background-color: #fef3c7;
+}
+/* Bordas dessas pills — rgb do tom escuro equivalente */
+.light .border-violet-500\/30,
+.light .border-violet-500\/20 {
+  border-color: rgb(109 40 217 / 0.3);
+}
+.light .border-amber-500\/30,
+.light .border-amber-500\/20 {
+  border-color: rgb(180 83 9 / 0.3);
+}
+.light .border-violet-800\/50 {
+  border-color: rgb(148 163 184 / 0.6);
+}
+
 /* Pills de "estado claro" que estavam apagadas (bg-slate-800 + texto cinza) */
 .light .bg-slate-800.text-slate-500 {
   background-color: #e2e8f0;
