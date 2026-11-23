@@ -843,3 +843,14 @@ html.light {
 .light .from-white.via-cyan-100 {
   --tw-gradient-stops: #0f172a, #0e7490 45%, #06b6d4;
 }
+
+/* Rodapé da landpage (v0.0.19): marcadores dos links e hovers legíveis no claro */
+.light footer .hover\:text-cyan-300:hover {
+  color: #0e7490;
+}
+.light footer .bg-cyan-500\/70 {
+  background-color: rgb(14 116 144 / 0.8);
+}
+.light footer .bg-violet-500\/70 {
+  background-color: rgb(109 40 217 / 0.8);
+}

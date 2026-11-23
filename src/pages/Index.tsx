@@ -5,12 +5,9 @@ import { useTheme } from '@/contexts/ThemeContext'
 import { Button } from '@/components/ui/button'
 import { NoWaitFitLogo } from '@/components/NoWaitFitLogo'
 import {
-  Calendar,
   ShieldCheck,
   Building2,
-  Users,
   Clock,
-  Sparkles,
   ArrowRight,
   Sun,
   Moon,
@@ -19,6 +16,7 @@ import {
   Smartphone,
   Flame,
   Zap,
+  Mail,
 } from 'lucide-react'
 
 export default function Index() {
@@ -312,24 +310,98 @@ export default function Index() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/60 bg-slate-950/90 py-8 px-4 sm:px-6 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <NoWaitFitLogo size="sm" />
-            <span>— Agendamento Inteligente & Capacidade Real</span>
+      <footer className="relative z-10 border-t border-slate-800/60 bg-slate-950/90 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+            {/* Marca + descrição */}
+            <div className="sm:col-span-2">
+              <NoWaitFitLogo size="md" />
+              <p className="mt-4 text-sm text-slate-400 leading-relaxed max-w-sm">
+                Agendamentos inteligentes para academias, fisioterapia e studios — zero filas,
+                capacidade real por sessão e confirmação instantânea.
+              </p>
+              <div className="mt-5 flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-[10px] font-mono font-bold tracking-wider uppercase text-slate-400">
+                  <Zap className="h-3 w-3 text-amber-400" />
+                  Zero Filas
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-[10px] font-mono font-bold tracking-wider uppercase text-slate-400">
+                  <ShieldCheck className="h-3 w-3 text-cyan-400" />
+                  Capacidade Real
+                </span>
+              </div>
+            </div>
+
+            {/* Navegação */}
+            <div>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">
+                Navegação
+              </h4>
+              <ul className="space-y-3 text-sm">
+                <li>
+                  <Link
+                    to="/login"
+                    className="inline-flex items-center gap-2 text-slate-500 hover:text-cyan-300 transition-colors"
+                  >
+                    <span className="h-1 w-1 rounded-full bg-cyan-500/70" />
+                    Entrar
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/cadastro"
+                    className="inline-flex items-center gap-2 text-slate-500 hover:text-cyan-300 transition-colors"
+                  >
+                    <span className="h-1 w-1 rounded-full bg-cyan-500/70" />
+                    Criar Conta
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/agendar"
+                    className="inline-flex items-center gap-2 text-slate-500 hover:text-cyan-300 transition-colors"
+                  >
+                    <span className="h-1 w-1 rounded-full bg-cyan-500/70" />
+                    Agendar Horários
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/admin"
+                    className="inline-flex items-center gap-2 text-slate-500 hover:text-cyan-300 transition-colors"
+                  >
+                    <span className="h-1 w-1 rounded-full bg-violet-500/70" />
+                    Painel Corporativo
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Contato */}
+            <div>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">
+                Contato
+              </h4>
+              <a
+                href="mailto:contato@nowaitfit.com.br"
+                className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-cyan-300 transition-colors"
+              >
+                <Mail className="h-4 w-4 text-amber-400 shrink-0" />
+                contato@nowaitfit.com.br
+              </a>
+              <p className="mt-4 text-xs text-slate-500 leading-relaxed">
+                Suporte para alunos e para equipes de gestão de academias, fisioterapia e studios.
+              </p>
+            </div>
           </div>
-          <div className="flex items-center gap-4 text-slate-500">
-            <Link to="/agendar" className="hover:text-cyan-300 transition-colors">
-              Agendar Vagas
-            </Link>
-            <span>•</span>
-            <Link to="/admin" className="hover:text-cyan-300 transition-colors">
-              Área da Empresa
-            </Link>
-            <span>•</span>
-            <Link to="/admin/backlog" className="hover:text-cyan-300 transition-colors">
-              Backlog do Produto
-            </Link>
+
+          {/* Linha final: direitos reservados */}
+          <div className="mt-10 pt-6 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+            <span>© {new Date().getFullYear()} NoWaitFit. Todos os direitos reservados.</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Activity className="h-3 w-3 text-sky-400" />
+              Agendamento Inteligente &amp; Capacidade Real
+            </span>
           </div>
         </div>
       </footer>
